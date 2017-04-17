@@ -4,7 +4,8 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Shape;
 
-public class Sprite {
+public class Sprite extends Node {
+    public 
     //include Node?
     private Image image;
     private Shape shape;
@@ -36,7 +37,8 @@ public class Sprite {
     }
 
     public void moveForward(double dist) {
-
+        shape.setTranslateX(shape.getTranslateX()+dist*Math.cos(heading));
+        shape.setTranslateY(shape.getTranslateY()+dist*Math.sin(heading));
     }
 
     public void translateX(double dist) {
