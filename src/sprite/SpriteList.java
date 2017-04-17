@@ -7,15 +7,16 @@ import java.util.ArrayList;
  */
 public class SpriteList {
     private ArrayList<Sprite> list;
+
     public SpriteList() {
         list = new ArrayList<>();
     }
-    public void add(Sprite in)
-    {
+
+    public void add(Sprite in) {
         list.add(in);
     }
-    public ArrayList<Sprite> getList()
-    {
+
+    public ArrayList<Sprite> getList() {
         return list;
     }
 }
