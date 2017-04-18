@@ -13,19 +13,20 @@ import java.util.ArrayList;
  */
 public class Window extends Application {
     private ArrayList<Sprite> sprites;
-    private AnimationTimer ticker;
 
-    public Window(AnimationTimer ticker, SpriteList sprites) {
-        this.ticker = ticker;
+    public Window(SpriteList sprites) {
         this.sprites = sprites.getList();
         launch();
     }
 
     public void start(Stage stage) {
-        ticker.start();
+        for(Sprite s:sprites)
+        {
+            s.getFrameHandler().start();
+        }
     }
 
     public void addSprite(Sprite sprite) {
-
+        sprites.add(sprite);
     }
 }
