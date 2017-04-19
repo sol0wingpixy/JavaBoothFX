@@ -1,9 +1,9 @@
 package jbfx.sample;
 
+import javafx.application.Application;
 import jbfx.animation.FrameHandler;
 import javafx.animation.AnimationTimer;
 import jbfx.sprite.Sprite;
-import jbfx.sprite.SpriteList;
 import jbfx.window.Window;
 
 public class Main {
@@ -12,11 +12,13 @@ public class Main {
         sprite.addFrameHandler(new FrameHandler() {
             @Override
             public void runPerTick(long now) {
-
+                sprite.translateX(1);
+                System.out.println("RunPerTick");
+                System.out.println(sprite.getNode().translateXProperty());
             }
         });
-        SpriteList sprites = new SpriteList();
-        sprites.add(sprite);
-        Window screen = new Window(sprites);
+        Window.addSprite(sprite);
+        System.out.println("Launching Application");
+        Application.launch(Window.class,args);
     }
 }

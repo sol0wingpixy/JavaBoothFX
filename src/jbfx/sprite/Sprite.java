@@ -1,34 +1,26 @@
 package jbfx.sprite;
 
+import javafx.scene.Node;
+import javafx.scene.shape.Rectangle;
 import jbfx.animation.FrameHandler;
 import javafx.scene.image.Image;
-import javafx.scene.shape.Shape;
 
-public class Sprite extends Shape {
-    public com.sun.javafx.geom.Shape impl_configShape()
-    {
-        return null;
-    }
+public class Sprite {
     private Image image;
+    private Node node;
     private FrameHandler handler;
     private double heading;
 
-    public Sprite(double left,double top,double width,double height,double heading, Image image) {
+    public Sprite(Node inNode,double heading, Image image) {
         super();
-        super.setTranslateX(left);
-        super.setTranslateX(top);
-        super.resize(width,height);
+        node = inNode;
 
         this.heading = heading;
         this.image = image;
     }
 
-    public Sprite( double heading){
-        this(0,0,10,10,heading,null);
-    }
-
     public Sprite() {
-        this(0);
+        this(new Rectangle(10,10),0,null);
     }
 
     public void addFrameHandler(FrameHandler handler) {
@@ -39,27 +31,32 @@ public class Sprite extends Shape {
         return handler;
     }
 
+    public Node getNode()
+    {
+        return node;
+    }
+
     public void rotate(double theta) {
         theta = Math.toRadians(theta);
         heading +=theta;
-        super.setRotate(super.getRotate()+theta);
+        node.setRotate(node.getRotate()+theta);
     }
     public void setHeading(double theta) {
         theta = Math.toRadians(theta);
         heading = theta;
-        super.setRotate(theta);
+        node.setRotate(theta);
     }
 
     public void moveForward(double dist) {
-        super.setTranslateX(super.getTranslateX()+dist*Math.cos(heading));
-        super.setTranslateY(super.getTranslateY()+dist*Math.sin(heading));
+        node.setTranslateX(node.getTranslateX()+dist*Math.cos(heading));
+        node.setTranslateY(node.getTranslateY()+dist*Math.sin(heading));
     }
 
     public void translateX(double dist) {
-        super.setTranslateX(super.getTranslateX()+dist);
+        node.setTranslateX(node.getTranslateX()+dist);
     }
 
     public void translateY(double dist) {
-        super.setTranslateY(super.getTranslateY()+dist);
+        node.setTranslateY(node.getTranslateY()+dist);
     }
 }
