@@ -1,4 +1,4 @@
-package sprite;
+package jbfx.sprite;
 
 import java.util.ArrayList;
 

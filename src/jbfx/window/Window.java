@@ -1,11 +1,10 @@
-package window;
+package jbfx.window;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.stage.Stage;
-import sprite.*;
-
+import jbfx.sprite.*;
 import java.util.ArrayList;
 
 /**

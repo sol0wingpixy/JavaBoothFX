@@ -1,10 +1,10 @@
-package sample;
+package jbfx.sample;
 
-import animation.FrameHandler;
+import jbfx.animation.FrameHandler;
 import javafx.animation.AnimationTimer;
-import sprite.Sprite;
-import sprite.SpriteList;
-import window.Window;
+import jbfx.sprite.Sprite;
+import jbfx.sprite.SpriteList;
+import jbfx.window.Window;
 
 public class Main {
     public static void main(String[] args) {

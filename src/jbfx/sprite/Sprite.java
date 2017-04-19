@@ -1,6 +1,6 @@
-package sprite;
+package jbfx.sprite;
 
-import animation.FrameHandler;
+import jbfx.animation.FrameHandler;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Shape;
 
