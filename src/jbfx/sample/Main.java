@@ -22,16 +22,37 @@ public class Main {
                 System.out.println(sprite.getNode().translateXProperty());
                 if(sprite.getNode().translateXProperty().greaterThan(1000).get())
                 {
-                    sprite.translateX(-1000);
+                    sprite.translateX(-Window.getWidth());
                 }
                 if(sprite.getNode().translateYProperty().greaterThan(600).get())
                 {
-                    sprite.translateY(-800);
+                    sprite.translateY(-Window.getHeight());
                 }
             }
         });
-
+        Sprite sprite2 = new Sprite();
+        sprite2.addFrameHandler(new FrameHandler() {
+            private double velX;
+            private double velY=1;
+            @Override
+            public void runPerTick(long now) {
+                velX+=.1;
+                velY+=.15;
+                sprite.translateX(velX);
+                sprite.translateY(velY);
+                //System.out.println(sprite.getNode().translateXProperty());
+                if(sprite.getNode().translateXProperty().greaterThan(1000).get())
+                {
+                    sprite.translateX(-Window.getWidth());
+                }
+                if(sprite.getNode().translateYProperty().greaterThan(600).get())
+                {
+                    sprite.translateY(-Window.getHeight());
+                }
+            }
+        });
         Window.addSprite(sprite);
+        Window.addSprite(sprite2);
         Window.setWidth(1000);
         Window.setHeight(600);
         System.out.println("Launching Application");
