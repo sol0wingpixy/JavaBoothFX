@@ -1,5 +1,6 @@
 package jbfx.sprite;
 
+import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import jbfx.animation.FrameHandler;
@@ -8,7 +9,7 @@ import javafx.scene.image.Image;
 public class Sprite {
     private Image image;
     private Node node;
-    private FrameHandler handler;
+    private AnimationTimer handler;
     private double heading;
 
     public Sprite(Node inNode,double heading, Image image) {
@@ -23,11 +24,11 @@ public class Sprite {
         this(new Rectangle(10,10),0,null);
     }
 
-    public void addFrameHandler(FrameHandler handler) {
+    public void addFrameHandler(AnimationTimer handler) {
         this.handler = handler;
     }
 
-    public FrameHandler getFrameHandler() {
+    public AnimationTimer getAnimationTimer() {
         return handler;
     }
 
