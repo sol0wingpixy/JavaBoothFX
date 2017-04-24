@@ -1,17 +1,14 @@
-package jbfx.window;
+package jbfx;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import jbfx.animation.FrameHandler;
-import jbfx.sprite.*;
+import jbfx.FrameHandler;
+import jbfx.Sprite;
+
 import java.util.ArrayList;
 
-/**
- * Created by miller5157r on 4/14/2017.
- */
 public class Window extends Application {
     private static ArrayList<Sprite> sprites = new ArrayList<>();
     private static double width = 100;

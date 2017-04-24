@@ -1,10 +1,7 @@
-package jbfx.sprite;
+package jbfx;
 
-import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
-import jbfx.animation.FrameHandler;
-import javafx.scene.image.Image;
 
 public class Sprite {
     private Node node;

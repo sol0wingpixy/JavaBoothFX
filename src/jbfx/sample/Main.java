@@ -2,9 +2,9 @@ package jbfx.sample;
 
 import javafx.application.Application;
 import javafx.scene.shape.Circle;
-import jbfx.sprite.Sprite;
-import jbfx.window.Game;
-import jbfx.window.Window;
+import jbfx.Sprite;
+import jbfx.Game;
+import jbfx.Window;
 
 public class Main {
     public static void main(String[] args) {

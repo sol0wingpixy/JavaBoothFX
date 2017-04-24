@@ -1,9 +1,8 @@
-package jbfx.window;
+package jbfx;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.stage.Stage;
-import jbfx.sprite.Sprite;
 
 import java.util.ArrayList;
 
