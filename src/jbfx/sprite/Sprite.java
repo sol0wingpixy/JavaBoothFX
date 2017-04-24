@@ -7,34 +7,29 @@ import jbfx.animation.FrameHandler;
 import javafx.scene.image.Image;
 
 public class Sprite {
-    private Image image;
     private Node node;
-    private AnimationTimer handler;
     private double heading;
 
-    public Sprite(Node inNode,double heading, Image image) {
+    public Sprite(Node inNode,double heading) {
         super();
         node = inNode;
-
         this.heading = heading;
-        this.image = image;
+    }
+    public Sprite(Node inNode)
+    {
+        this(inNode,0);
     }
 
     public Sprite() {
-        this(new Rectangle(10,10),0,null);
+        this(new Rectangle(10,10));
     }
 
-    public void addFrameHandler(AnimationTimer handler) {
-        this.handler = handler;
-    }
-
-    public AnimationTimer getAnimationTimer() {
-        return handler;
-    }
-
-    public Node getNode()
+    public void runPerTick(long now)
     {
-        return node;
+        if(now%9==0)
+            moveForward(20);
+        else
+            rotate(10);
     }
 
     public void rotate(double theta) {
@@ -59,5 +54,10 @@ public class Sprite {
 
     public void translateY(double dist) {
         node.setTranslateY(node.getTranslateY()+dist);
+    }
+
+    public Node getNode()
+    {
+        return node;
     }
 }
