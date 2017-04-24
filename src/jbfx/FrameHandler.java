@@ -2,9 +2,6 @@ package jbfx;
 
 import javafx.animation.AnimationTimer;
 
-/**
- * Created by miller5157r on 4/14/2017.
- */
 public abstract class FrameHandler extends AnimationTimer {
     private static final int FPS = 120;
     private long lastRun = 0;

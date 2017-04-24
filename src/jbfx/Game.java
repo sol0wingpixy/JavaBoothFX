@@ -6,9 +6,6 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-/**
- * Created by miller5157r on 4/21/2017.
- */
 public class Game {
 
     private double width;
