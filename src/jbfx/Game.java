@@ -3,22 +3,20 @@ package jbfx;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 
 public class Game {
-
     private double width;
     private double height;
     private ArrayList<Sprite> sprites;
-    public Game()
-    {
+
+    public Game() {
         sprites = new ArrayList<>();
         width = 600;
         height = 300;
     }
-    public void startAnimation()
-    {
+
+    public void startAnimation() {
         new AnimationTimer(){
             @Override
             public void handle(long now)
@@ -30,27 +28,25 @@ public class Game {
             }
         }.start();
     }
-    public ArrayList<Sprite> getSprites()
-    {
+
+    public ArrayList<Sprite> getSprites() {
         return sprites;
     }
-    public void addSprite(Sprite sprite)
-    {
+
+    public void addSprite(Sprite sprite) {
         sprites.add(sprite);
     }
-    public double getWidth()
-    {
+
+    public double getWidth() {
         return width;
     }
-    public double getHeight()
-    {
+
+    public double getHeight() {
         return height;
     }
 
-
-    public static void makeScene(Game game, Group root, Stage stage)
-    {
-        for(Sprite sprite:game.getSprites())
+    public static void makeScene(Game game, Group root, Stage stage) {
+        for(Sprite sprite : game.getSprites())
         {
             root.getChildren().add(sprite.getNode());
         }

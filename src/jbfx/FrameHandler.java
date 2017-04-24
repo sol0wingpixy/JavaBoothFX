@@ -7,7 +7,7 @@ public abstract class FrameHandler extends AnimationTimer {
     private long lastRun = 0;
 
     public void handle(long now) {
-        if(lastRun + 1000000000/FrameHandler.FPS < now ) {
+        if (lastRun + 1000000000 / FrameHandler.FPS < now ) {
             runPerTick(now);
             lastRun = now;
         }

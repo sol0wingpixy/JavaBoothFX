@@ -4,23 +4,22 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import jbfx.FrameHandler;
-import jbfx.Sprite;
-
 import java.util.ArrayList;
 
 public class Window extends Application {
     private static ArrayList<Sprite> sprites = new ArrayList<>();
     private static double width = 100;
     private static double height = 100;
-    public static void addSprite(Sprite sprite)
-    {
+
+    public static void addSprite(Sprite sprite) {
         sprites.add(sprite);
     }
-    public static void setWidth(double widthIn){
+
+    public static void setWidth(double widthIn) {
         width = widthIn;
     }
-    public static void setHeight(double heightIn){
+
+    public static void setHeight(double heightIn) {
         height = heightIn;
     }
 
