@@ -1,7 +1,9 @@
 package jbfx.sample;
 
 import javafx.application.Application;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import jbfx.Sprite;
 import jbfx.Game;
 import jbfx.Window;
@@ -9,11 +11,8 @@ import jbfx.Window;
 public class Main {
     public static void main(String[] args) {
         Game game = new Game();
-        game.addSprite(new Sprite());
-        game.addSprite(new Sprite(new Circle(100,100,10)));
+        game.addSprite(new Player(new Rectangle(20,10, Color.STEELBLUE)));
 
-        Window.setGameScene(game);
-        System.out.println("Launching Application");
-        Application.launch(Window.class,args);
+        game.startGame();
     }
 }

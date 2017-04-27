@@ -3,7 +3,7 @@ package jbfx;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 
-public class Sprite {
+public abstract class Sprite {
     private Node node;
     private double heading;
 
@@ -21,13 +21,7 @@ public class Sprite {
         this(new Rectangle(10,10));
     }
 
-    public void runPerTick(long now) {
-        if (now % 9 == 0) {
-            moveForward(20);
-        } else {
-            rotate(10);
-        }
-    }
+    public abstract void runPerTick(long now);
 
     public void rotate(double theta) {
         theta = Math.toRadians(theta);
