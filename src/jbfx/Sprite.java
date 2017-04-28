@@ -1,6 +1,7 @@
 package jbfx;
 
 import javafx.scene.Node;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Sprite {
@@ -22,6 +23,8 @@ public abstract class Sprite {
     }
 
     public abstract void runPerTick(long now);
+
+    public abstract void whenKeyPressed(KeyEvent event);
 
     public void rotate(double theta) {
         theta = Math.toRadians(theta);

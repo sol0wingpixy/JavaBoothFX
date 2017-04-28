@@ -1,6 +1,8 @@
 package jbfx.sample;
 
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import jbfx.Sprite;
 
 /**
@@ -10,12 +12,34 @@ public class Player extends Sprite {
     public Player(Node node)
     {
         super(node);
+        translateX(100);
+        translateY(100);
     }
+    private double xVel = 0;
+    private double yVel = 0;
+
     public void runPerTick(long now)
     {
-        if(now%4==0)
-            super.rotate(10);
-        else
-            super.moveForward(10);
+        translateX(xVel);
+        translateY(yVel);
+    }
+    public void whenKeyPressed(KeyEvent keyEvent)
+    {
+        if(keyEvent.getCode()== KeyCode.W)
+        {
+            yVel-=.3;
+        }
+        if(keyEvent.getCode()== KeyCode.S)
+        {
+            yVel+=.3;
+        }
+        if(keyEvent.getCode()== KeyCode.A)
+        {
+            xVel-=.3;
+        }
+        if(keyEvent.getCode()== KeyCode.D)
+        {
+            xVel+=.3;
+        }
     }
 }

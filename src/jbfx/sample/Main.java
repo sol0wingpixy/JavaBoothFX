@@ -11,7 +11,9 @@ import jbfx.Window;
 public class Main {
     public static void main(String[] args) {
         Game game = new Game();
-        game.addSprite(new Player(new Rectangle(20,10, Color.STEELBLUE)));
+        Rectangle hitbox = new Rectangle(20,15,Color.STEELBLUE);
+        Player bob = new Player(hitbox);
+        game.addSprite(bob);
 
         game.startGame();
     }
