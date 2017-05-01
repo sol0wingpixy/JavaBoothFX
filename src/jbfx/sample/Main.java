@@ -13,7 +13,10 @@ public class Main {
         Game game = new Game();
         Rectangle hitbox = new Rectangle(20,15,Color.STEELBLUE);
         Player bob = new Player(hitbox);
+        Collectable coin = new Collectable(new Circle(10,Color.BLACK));
+        coin.relocateY(20);
         game.addSprite(bob);
+        game.addSprite(coin);
 
         game.startGame();
     }

@@ -5,7 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.util.ArrayList;
-//This class is not modified or seen by user
+//This class is not to be modified or seen by user
 public class Window extends Application {
     private static Game game;
     public static void setGame(Game gameIn)

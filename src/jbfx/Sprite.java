@@ -26,6 +26,8 @@ public abstract class Sprite {
 
     public abstract void whenKeyPressed(KeyEvent event);
 
+    public abstract void collidesWith(Sprite other);
+
     public void rotate(double theta) {
         theta = Math.toRadians(theta);
         heading += theta;
@@ -38,16 +40,20 @@ public abstract class Sprite {
     }
 
     public void moveForward(double dist) {
-        node.setTranslateX(node.getTranslateX() + dist * Math.cos(heading));
-        node.setTranslateY(node.getTranslateY() + dist * Math.sin(heading));
+        node.relocate(node.getLayoutX() + dist * Math.cos(heading),node.getLayoutY() + dist * Math.sin(heading));
     }
 
-    public void translateX(double dist) {
-        node.setTranslateX(node.getTranslateX() + dist);
+    public void relocateX(double dist) {
+        node.relocate(node.getLayoutX() + dist,node.getLayoutY());
     }
 
-    public void translateY(double dist) {
-        node.setTranslateY(node.getTranslateY() + dist);
+    public void relocateY(double dist) {
+        node.relocate(node.getLayoutX(),node.getLayoutY() + dist);
+    }
+
+    public void relocate(double xDist,double yDist)
+    {
+        node.relocate(node.getLayoutX()+xDist,node.getLayoutY()+yDist);
     }
 
     public Node getNode() {

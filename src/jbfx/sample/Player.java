@@ -9,37 +9,48 @@ import jbfx.Sprite;
  * Created by miller5157r on 4/27/2017.
  */
 public class Player extends Sprite {
+
     public Player(Node node)
     {
         super(node);
-        translateX(100);
-        translateY(100);
+        relocate(100,100);
     }
     private double xVel = 0;
     private double yVel = 0;
+    private double step = 3;
+    private int coinCount = 0;
 
     public void runPerTick(long now)
     {
-        translateX(xVel);
-        translateY(yVel);
+        relocate(xVel,yVel);
     }
     public void whenKeyPressed(KeyEvent keyEvent)
     {
         if(keyEvent.getCode()== KeyCode.W)
         {
-            yVel-=.3;
+            relocateY(-step);
         }
         if(keyEvent.getCode()== KeyCode.S)
         {
-            yVel+=.3;
+            relocateY(step);
         }
         if(keyEvent.getCode()== KeyCode.A)
         {
-            xVel-=.3;
+            relocateX(-step);
         }
         if(keyEvent.getCode()== KeyCode.D)
         {
-            xVel+=.3;
+            relocateX(step);
+        }
+    }
+    public void collidesWith(Sprite other) {
+        if(other instanceof Collectable)
+        {
+            coinCount++;
+            if(Math.random()<.5)
+                other.relocateX(Math.random()*100+20);
+            else
+                other.relocateX(Math.random()*-100-20);
         }
     }
 }

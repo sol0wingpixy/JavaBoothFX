@@ -32,6 +32,17 @@ public class Game {
                 for (Sprite sprite : sprites) {
                     sprite.runPerTick(now);
                 }
+                //Could set up another AnimationTimer - should?
+                for(int i=0;i<sprites.size();i++)
+                {
+                    for(int j = i+1;j<sprites.size();j++)
+                    {
+                        if(sprites.get(i).getNode().intersects(sprites.get(j).getNode().getBoundsInLocal()))//simple
+                        {
+                            sprites.get(i).collidesWith(sprites.get(j));
+                        }
+                    }
+                }
             }
         }.start();
     }
