@@ -11,12 +11,16 @@ import jbfx.Window;
 public class Main {
     public static void main(String[] args) {
         Game game = new Game();
-        Rectangle hitbox = new Rectangle(20,15,Color.STEELBLUE);
-        Player bob = new Player(hitbox);
+        game.setHeight(500);
+        game.setWidth(700);
+
+        Player bob = new Player(new Rectangle(20,15,Color.STEELBLUE));
         Collectable coin = new Collectable(new Circle(10,Color.BLACK));
-        coin.relocateY(20);
+        Floor floor = new Floor(450,game);
         game.addSprite(bob);
         game.addSprite(coin);
+        game.addSprite(floor);
+
 
         game.startGame();
     }

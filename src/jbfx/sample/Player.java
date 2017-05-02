@@ -28,7 +28,7 @@ public class Player extends Sprite {
     {
         if(keyEvent.getCode()== KeyCode.W)
         {
-            relocateY(-step);
+            
         }
         if(keyEvent.getCode()== KeyCode.S)
         {
@@ -47,10 +47,11 @@ public class Player extends Sprite {
         if(other instanceof Collectable)
         {
             coinCount++;
-            if(Math.random()<.5)
-                other.relocateX(Math.random()*100+20);
-            else
-                other.relocateX(Math.random()*-100-20);
+            System.out.println("PING!: "+coinCount);
+        }
+        if(other instanceof Floor)
+        {
+            yVel = 0;
         }
     }
 }

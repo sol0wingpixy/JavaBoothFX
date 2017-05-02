@@ -25,6 +25,14 @@ public class Game {
         height = 300;
     }
 
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
     public void startAnimation() {
         new AnimationTimer() {
             @Override
@@ -37,9 +45,10 @@ public class Game {
                 {
                     for(int j = i+1;j<sprites.size();j++)
                     {
-                        if(sprites.get(i).getNode().intersects(sprites.get(j).getNode().getBoundsInLocal()))//simple
+                        if(sprites.get(i).getNode().getBoundsInParent().intersects(sprites.get(j).getNode().getBoundsInParent()))//simple
                         {
                             sprites.get(i).collidesWith(sprites.get(j));
+                            sprites.get(j).collidesWith(sprites.get(i));
                         }
                     }
                 }
