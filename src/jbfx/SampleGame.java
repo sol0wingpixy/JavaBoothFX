@@ -1,4 +1,4 @@
-package jbfx.sample;
+package jbfx;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -7,12 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
-import jbfx.Sprite;
 
-public class SampleApplication extends Application {
+public class SampleGame extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         Canvas canvas = new Canvas(800, 600);
         Group root = new Group();
         root.getChildren().add(canvas);
