@@ -1,12 +1,15 @@
 package jbfx;
 
 import javafx.scene.Node;
+import javafx.scene.input.InputEvent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Sprite {
     private Node node;
     private double heading;
+    private InputHandler handler;
 
     public Sprite(Node inNode,double heading) {
         super();
@@ -28,6 +31,16 @@ public abstract class Sprite {
 
     public abstract void collidesWith(Sprite other);
 
+    public void addInputHandler(InputHandler handler) {
+        this.handler = handler;
+    }
+
+    public boolean keyPressed(KeyCode e)
+    {
+
+        return true;
+    }
+
     public void rotate(double theta) {
         theta = Math.toRadians(theta);
         heading += theta;
@@ -43,15 +56,15 @@ public abstract class Sprite {
         node.relocate(node.getLayoutX() + dist * Math.cos(heading),node.getLayoutY() + dist * Math.sin(heading));
     }
 
-    public void relocateX(double dist) {
+    public void moveX(double dist) {
         node.relocate(node.getLayoutX() + dist,node.getLayoutY());
     }
 
-    public void relocateY(double dist) {
+    public void moveY(double dist) {
         node.relocate(node.getLayoutX(),node.getLayoutY() + dist);
     }
 
-    public void relocate(double xDist,double yDist)
+    public void move(double xDist,double yDist)
     {
         node.relocate(node.getLayoutX()+xDist,node.getLayoutY()+yDist);
     }

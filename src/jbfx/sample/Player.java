@@ -13,34 +13,32 @@ public class Player extends Sprite {
     public Player(Node node)
     {
         super(node);
-        relocate(100,100);
+        move(100,100);
     }
     private double xVel = 0;
     private double yVel = 0;
+    private double gravity = .1;
     private double step = 3;
     private int coinCount = 0;
 
     public void runPerTick(long now)
     {
-        relocate(xVel,yVel);
+        move(xVel,yVel);
+        yVel+=gravity;
     }
     public void whenKeyPressed(KeyEvent keyEvent)
     {
-        if(keyEvent.getCode()== KeyCode.W)
-        {
-            
-        }
-        if(keyEvent.getCode()== KeyCode.S)
-        {
-            relocateY(step);
-        }
         if(keyEvent.getCode()== KeyCode.A)
         {
-            relocateX(-step);
+            moveX(-step);
         }
         if(keyEvent.getCode()== KeyCode.D)
         {
-            relocateX(step);
+            moveX(step);
+        }
+        if(keyEvent.getCode()== KeyCode.W)
+        {
+            yVel = -3;
         }
     }
     public void collidesWith(Sprite other) {

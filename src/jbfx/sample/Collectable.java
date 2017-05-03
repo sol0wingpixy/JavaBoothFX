@@ -26,8 +26,8 @@ public class Collectable extends Sprite {
     public void collidesWith(Sprite other) {
         System.out.println("PONG!");
         if(Math.random()<.5)
-            relocateX(Math.random()*100+20);
+            moveX(Math.random()*100+20);
         else
-            relocateX(Math.random()*-100-20);
+            moveX(Math.random()*-100-20);
     }
 }
