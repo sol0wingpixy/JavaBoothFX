@@ -13,16 +13,17 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-//This class is not to be seen by the user
 public class Game {
     private double width;
     private double height;
     private ArrayList<Sprite> sprites;
+    private KeyStates states;
 
     public Game() {
         sprites = new ArrayList<>();
         width = 600;
         height = 300;
+        states = new KeyStates();
     }
 
     public void setWidth(double width) {
@@ -31,6 +32,10 @@ public class Game {
 
     public void setHeight(double height) {
         this.height = height;
+    }
+
+    public KeyStates getStates(){
+        return states;
     }
 
     public void startAnimation() {
@@ -62,6 +67,12 @@ public class Game {
                 for (Sprite sprite : sprites) {
                     sprite.whenKeyPressed(keyEvent);
                 }
+                states.keyPressed(keyEvent.getCode());
+            }
+        });
+        stage.addEventHandler(KeyEvent.KEY_RELEASED,new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent keyEvent) {
+                states.keyReleased(keyEvent.getCode());
             }
         });
     }
@@ -72,6 +83,7 @@ public class Game {
 
     public void addSprite(Sprite sprite) {
         sprites.add(sprite);
+        sprite.setParentGame(this);
     }
 
     public double getWidth() {

@@ -1,7 +1,6 @@
 package jbfx;
 
 import javafx.scene.Node;
-import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
@@ -9,7 +8,8 @@ import javafx.scene.shape.Rectangle;
 public abstract class Sprite {
     private Node node;
     private double heading;
-    private InputHandler handler;
+    private KeyStates handler;
+    private Game parentGame;
 
     public Sprite(Node inNode,double heading) {
         super();
@@ -31,14 +31,16 @@ public abstract class Sprite {
 
     public abstract void collidesWith(Sprite other);
 
-    public void addInputHandler(InputHandler handler) {
+    public void addInputHandler(KeyStates handler) {
         this.handler = handler;
     }
 
-    public boolean keyPressed(KeyCode e)
-    {
+    public void setParentGame(Game game){
+        parentGame = game;
+    }
 
-        return true;
+    public boolean keyPressed(KeyCode code){
+        return parentGame.getStates().isKeyPressed(code);
     }
 
     public void rotate(double theta) {

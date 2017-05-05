@@ -16,11 +16,11 @@ public class Main {
 
         Player bob = new Player(new Rectangle(20,15,Color.STEELBLUE));
         Collectable coin = new Collectable(new Circle(10,Color.BLACK));
+        coin.move(300,200);
         Floor floor = new Floor(450,game);
         game.addSprite(bob);
         game.addSprite(coin);
         game.addSprite(floor);
-
 
         game.startGame();
     }

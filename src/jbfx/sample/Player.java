@@ -25,17 +25,13 @@ public class Player extends Sprite {
     {
         move(xVel,yVel);
         yVel+=gravity;
+        if(keyPressed(KeyCode.D))
+            moveX(step);
+        if(keyPressed(KeyCode.A))
+            moveX(-step);
     }
     public void whenKeyPressed(KeyEvent keyEvent)
     {
-        if(keyEvent.getCode()== KeyCode.A)
-        {
-            moveX(-step);
-        }
-        if(keyEvent.getCode()== KeyCode.D)
-        {
-            moveX(step);
-        }
         if(keyEvent.getCode()== KeyCode.W)
         {
             yVel = -3;
