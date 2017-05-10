@@ -11,13 +11,13 @@ import java.util.Map;
 /**
  * Created by miller5157r on 5/3/2017.
  */
-public class KeyStates {
-    private Map<KeyCode,Boolean> keysPressed = new HashMap<>();
+public class KeyStates {//remembers which keys have been pressed
+    private Map<KeyCode,Boolean> keysPressed = new HashMap<>();//each KeyCode is assosiated with true or false - pressed or not
     public KeyStates()
     {
         for(KeyCode code:KeyCode.values())
         {
-            keysPressed.put(code,false);
+            keysPressed.put(code,false);//initialise all values to false
         }
     }
     public void keyPressed(KeyCode code)

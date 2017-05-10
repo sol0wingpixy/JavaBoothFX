@@ -32,7 +32,7 @@ public class Player extends Sprite {
     }
     public void whenKeyPressed(KeyEvent keyEvent)
     {
-        if(keyEvent.getCode()== KeyCode.W)
+        if(keyEvent.getCode()== KeyCode.W)//jump
         {
             yVel = -3;
         }

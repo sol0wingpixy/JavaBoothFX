@@ -85,21 +85,21 @@ public class Game {
 
     //starts the animation timer that calls the Sprite runPerTick, checks collision
     public void startAnimation() {
-        new AnimationTimer() {
+        new AnimationTimer() {//run at 60 fps
             @Override
             public void handle(long now) {
-                for (Sprite sprite : sprites) {
+                for (Sprite sprite : sprites) {//go through all sprites, tick them
                     sprite.runPerTick(now);//whatever use defines
                 }
                 //Could set up another AnimationTimer to check collision - should?
                 for(int i=0;i<sprites.size();i++)//every sprite
                 {
-                    for(int j = i+1;j<sprites.size();j++)//every sprite that hasn't already been checked against sprites[i]
+                    for(int j = i+1;j<sprites.size();j++)//every sprite that hasn't already been checked against sprites[i] - efficency
                     {
                         if(sprites.get(i).getNode().getBoundsInParent().intersects(sprites.get(j).getNode().getBoundsInParent()))//check collision
                         {
-                            sprites.get(i).collidesWith(sprites.get(j));
-                            sprites.get(j).collidesWith(sprites.get(i));
+                            sprites.get(i).collidesWith(sprites.get(j));//collide one with other
+                            sprites.get(j).collidesWith(sprites.get(i));//collide other with one
                         }
                     }
                 }
@@ -107,18 +107,18 @@ public class Game {
         }.start();
     }
 
-    public void startListening(Stage stage) {
-        stage.addEventHandler(KeyEvent.KEY_PRESSED,new EventHandler<KeyEvent>() {
+    public void startListening(Stage stage) {//will handle keys being pressed
+        stage.addEventHandler(KeyEvent.KEY_PRESSED,new EventHandler<KeyEvent>() {//whenever a key is pressed down
             public void handle(KeyEvent keyEvent) {
                 for (Sprite sprite : sprites) {
-                    sprite.whenKeyPressed(keyEvent);
+                    sprite.whenKeyPressed(keyEvent);//have each sprite react
                 }
-                states.keyPressed(keyEvent.getCode());
+                states.keyPressed(keyEvent.getCode());//have KeyStates remember that the key is pressed
             }
         });
-        stage.addEventHandler(KeyEvent.KEY_RELEASED,new EventHandler<KeyEvent>() {
+        stage.addEventHandler(KeyEvent.KEY_RELEASED,new EventHandler<KeyEvent>() {//whenever a key is released
             public void handle(KeyEvent keyEvent) {
-                states.keyReleased(keyEvent.getCode());
+                states.keyReleased(keyEvent.getCode());//have KeyStates remember that key is released
             }
         });
     }
