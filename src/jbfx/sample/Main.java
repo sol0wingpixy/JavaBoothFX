@@ -30,15 +30,21 @@ public class Main {
         //Sprites must be put into the local game to exist - what the user sees.
 
         Bug omnom = new Bug(new Polygon(10,10,0,0,0,20),0);
+        Bug omnom1 = new Bug(new Polygon(10,10,0,0,0,20),0);
+        Bug omnom2 = new Bug(new Polygon(10,10,0,0,0,20),0);
 
         omnom.move(300,300);
-
+        omnom1.move(200,200);
+        omnom2.move(100,100);
         game.addSprite(bob);
         game.addSprite(coin);
         game.addSprite(floor);
         game.addSprite(omnom);
+        game.addSprite(omnom1);
+        game.addSprite(omnom2);
 
         //once everything's set, start the game.
         game.startGame();
+
     }
 }

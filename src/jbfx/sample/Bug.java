@@ -30,15 +30,15 @@ public class Bug extends Sprite {
         {
             moveForward(2);
         }
-        if(keyPressed(KeyCode.SPACE))
-        {
-            getParentGame().addSprite(new Bug(new Polygon(10,10,0,0,0,20),0));
-        }
     }
 
     @Override
     public void whenKeyPressed(KeyEvent event) {
-
+        if(event.getCode()==KeyCode.SPACE) {
+            Bug input = new Bug(new Polygon(10, 10, 0, 0, 0, 20), 0);
+            input.move(300,300);
+            getParentGame().addSprite(input);
+        }
     }
 
     @Override
