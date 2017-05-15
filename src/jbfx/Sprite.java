@@ -33,23 +33,30 @@ public abstract class Sprite {//to be implemented by user
         parentGame = game;
     }
 
+    public Game getParentGame() {
+        return parentGame;
+    }
+
     public boolean keyPressed(KeyCode code){//intended for access by user's implementation
         return parentGame.getStates().isKeyPressed(code);
     }
 
     public void rotate(double theta) {//rotate theta degrees counterclockwise
-        theta = Math.toRadians(theta);
         heading += theta;
+        heading %=360;
         node.setRotate(node.getRotate()+theta);
     }
     public void setHeading(double theta) {//set theta.
-        theta = Math.toRadians(theta);
         heading = theta;
+        heading %= 360;
         node.setRotate(theta);
+    }
+    public double getHeading(){
+        return heading;
     }
 
     public void moveForward(double dist) {//used by user - will use heading and Trig to move indicated amount in Heading direction
-        node.relocate(node.getLayoutX() + dist * Math.cos(heading),node.getLayoutY() + dist * Math.sin(heading));
+        node.relocate(node.getLayoutX() + dist * Math.cos(Math.toRadians(heading)),node.getLayoutY() + dist * Math.sin(Math.toRadians(heading)));
     }
 
     public void moveX(double dist) {//used by user - moves dist pixels left(negative) or right

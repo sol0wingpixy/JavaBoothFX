@@ -12,16 +12,23 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 //This is the central class for the actual execution of the Game
 public class Game {
     private double width;
     private double height;
-    private ArrayList<Sprite> sprites;
+    private List<Sprite> sprites;
+    private AnimationTimer animationTimer;
+    private EventHandler pressedHandler;
+    private EventHandler releasedHandler;
     private KeyStates states;
+    private boolean launched = false;
 
     public Game(double width,double height)
     {
-        sprites = new ArrayList<>();
+        sprites = new ArrayList<Sprite>();
         this.width = width;
         this.height = height;
         states = new KeyStates();
@@ -56,7 +63,7 @@ public class Game {
         return states;
     }
 
-    public ArrayList<Sprite> getSprites() {
+    public List<Sprite> getSprites() {
         return sprites;
     }
 
@@ -67,6 +74,7 @@ public class Game {
     public void startGame() {
         Window.setGame(this);//give the window a reference to this
         Application.launch(Window.class);//then start the application
+        launched = true;
     }
 
     //makeScene starts the thread processes, assigns sprites to be drawn
@@ -85,11 +93,11 @@ public class Game {
 
     //starts the animation timer that calls the Sprite runPerTick, checks collision
     public void startAnimation() {
-        new AnimationTimer() {//run at 60 fps
+        animationTimer = new AnimationTimer() {//run at 60 fps
             @Override
             public void handle(long now) {
-                for (Sprite sprite : sprites) {//go through all sprites, tick them
-                    sprite.runPerTick(now);//whatever use defines
+                for (int i=0;i<sprites.size();i++) {//go through all sprites, tick them
+                    sprites.get(i).runPerTick(now);//whatever user defines
                 }
                 //Could set up another AnimationTimer to check collision - should?
                 for(int i=0;i<sprites.size();i++)//every sprite
@@ -104,22 +112,27 @@ public class Game {
                     }
                 }
             }
-        }.start();
+        };
+        animationTimer.start();
     }
 
     public void startListening(Stage stage) {//will handle keys being pressed
-        stage.addEventHandler(KeyEvent.KEY_PRESSED,new EventHandler<KeyEvent>() {//whenever a key is pressed down
+        pressedHandler = new EventHandler<KeyEvent>() {//whenever a key is pressed down
             public void handle(KeyEvent keyEvent) {
-                for (Sprite sprite : sprites) {
-                    sprite.whenKeyPressed(keyEvent);//have each sprite react
+                for (int i=0;i<sprites.size();i++) {
+                    sprites.get(i).whenKeyPressed(keyEvent);//have each sprite react
                 }
                 states.keyPressed(keyEvent.getCode());//have KeyStates remember that the key is pressed
             }
-        });
-        stage.addEventHandler(KeyEvent.KEY_RELEASED,new EventHandler<KeyEvent>() {//whenever a key is released
+        };
+        stage.addEventHandler(KeyEvent.KEY_PRESSED,pressedHandler);
+
+        releasedHandler = new EventHandler<KeyEvent>() {//whenever a key is released
             public void handle(KeyEvent keyEvent) {
                 states.keyReleased(keyEvent.getCode());//have KeyStates remember that key is released
             }
-        });
+        };
+
+        stage.addEventHandler(KeyEvent.KEY_RELEASED,releasedHandler);
     }
 }
