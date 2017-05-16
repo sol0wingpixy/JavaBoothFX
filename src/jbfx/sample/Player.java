@@ -43,7 +43,7 @@ public class Player extends Sprite {
             coinCount++;
             System.out.println("PING!: "+coinCount);
         }
-        if(other instanceof Floor)
+        else
         {
             yVel = 0;
         }

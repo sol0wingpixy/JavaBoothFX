@@ -4,7 +4,9 @@ package jbfx.sample;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
 import jbfx.*;
 
 /**
@@ -35,9 +37,7 @@ public class Bug extends Sprite {
     @Override
     public void whenKeyPressed(KeyEvent event) {
         if(event.getCode()==KeyCode.SPACE) {
-            Bug input = new Bug(new Polygon(10, 10, 0, 0, 0, 20), 0);
-            input.move(300,300);
-            getParentGame().addSprite(input);
+
         }
     }
 

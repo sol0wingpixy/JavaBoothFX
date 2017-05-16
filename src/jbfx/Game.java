@@ -39,10 +39,8 @@ public class Game {
     }
 
     public void addSprite(Sprite sprite) {
-        if(sprites.size()<120) {
-            sprites.add(0, sprite);
+            sprites.add(sprite);
             sprite.setParentGame(this);
-        }
     }
 
     public double getWidth() {
