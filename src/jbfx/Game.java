@@ -10,6 +10,7 @@ import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import jbfx.sample.ViewManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +25,7 @@ public class Game {
     private EventHandler pressedHandler;
     private EventHandler releasedHandler;
     private KeyStates states;
+    private ViewManager viewManager;
     private boolean launched = false;
 
     public Game(double width,double height)
@@ -32,6 +34,7 @@ public class Game {
         this.width = width;
         this.height = height;
         states = new KeyStates();
+        viewManager = new ViewManager(0,0);
     }
 
     public Game() {
@@ -96,8 +99,9 @@ public class Game {
         animationTimer = new AnimationTimer() {//run at 60 fps
             @Override
             public void handle(long now) {
-                for (int i=0;i<sprites.size();i++) {//go through all sprites, tick them
-                    sprites.get(i).runPerTick(now);//whatever user defines
+                for (Sprite sprite:sprites) {//go through all sprites, tick them
+                    sprite.setOffset(viewManager.getOffsetX(),viewManager.getOffsetY());
+                    sprite.runPerTick(now);//whatever user defines
                 }
                 //Could set up another AnimationTimer to check collision - should?
                 for(int i=0;i<sprites.size();i++)//every sprite

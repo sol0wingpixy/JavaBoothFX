@@ -17,8 +17,8 @@ public class Main {
         // a 'Game' is what the user will work with, adding sprites.
         Game game = new Game();
         //setHeight - setWidth - obvious
-        game.setHeight(500);
-        game.setWidth(700);
+        game.setHeight(700);
+        game.setWidth(1000);
 
         //Sprites are implemented by the user - see Player, Collectable, Floor classes
         Rectangle bobBox = new Rectangle(20,15,Color.STEELBLUE);

@@ -9,6 +9,8 @@ public abstract class Sprite {//to be implemented by user
     private Node node;
     private double heading;
     private Game parentGame;//needed for accessing KeyStates
+    private double offsetX = 0;
+    private double offsetY = 0;
 
     public Sprite(Node inNode,double heading) {
         node = inNode;
@@ -35,6 +37,12 @@ public abstract class Sprite {//to be implemented by user
 
     public Game getParentGame() {
         return parentGame;
+    }
+
+    public void setOffset(double offX,double offY) {
+        move(offX-offsetX,offY-offsetY);
+        offsetX = offX;
+        offsetY = offY;
     }
 
     public boolean keyPressed(KeyCode code){//intended for access by user's implementation
@@ -70,6 +78,8 @@ public abstract class Sprite {//to be implemented by user
     public void move(double xDist,double yDist) {//used by user - moves xDist pixels L/R, yDist pixels U/D
         node.relocate(node.getLayoutX()+xDist,node.getLayoutY()+yDist);
     }
+
+
 
     public Node getNode() {//needed for collision, setting up drawing
         return node;
