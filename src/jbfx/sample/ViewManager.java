@@ -1,15 +1,48 @@
 package jbfx.sample;
 
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import jbfx.KeyStates;
+
 /**
  * Created by miller5157r on 5/16/2017.
  */
 public class ViewManager {
-    public ViewManager(double offsetX,double offsetY)
+    private double offsetX;
+    private double offsetY;
+    private KeyStates states;
+
+    public ViewManager(KeyStates states,double offsetX,double offsetY)
     {
+        this.states = states;
         this.offsetX = offsetX;
         this.offsetY = offsetY;
     }
-    private double offsetX;
+
+    public ViewManager(KeyStates states)
+    {
+        this(states,0,0);
+    }
+
+    public void tick()
+    {
+        if(states.isKeyPressed(KeyCode.I))
+        {
+            offsetY += 3;
+        }
+        if(states.isKeyPressed(KeyCode.J))
+        {
+            offsetX += 3;
+        }
+        if(states.isKeyPressed(KeyCode.K))
+        {
+            offsetY -= 3;
+        }
+        if(states.isKeyPressed(KeyCode.L))
+        {
+            offsetX -= 3;
+        }
+    }
 
     public double getOffsetX() {
         return offsetX;
@@ -27,6 +60,5 @@ public class ViewManager {
         this.offsetY = offsetY;
     }
 
-    private double offsetY;
 
 }

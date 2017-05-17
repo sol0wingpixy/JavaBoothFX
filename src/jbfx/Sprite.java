@@ -68,15 +68,15 @@ public abstract class Sprite {//to be implemented by user
     }
 
     public void moveX(double dist) {//used by user - moves dist pixels left(negative) or right
-        node.relocate(node.getLayoutX() + dist,node.getLayoutY());
+        move(dist,0);
     }
 
     public void moveY(double dist) {//used by user - moves dist pixels up(negative) or down
-        node.relocate(node.getLayoutX(),node.getLayoutY() + dist);
+        move(0,dist);
     }
 
     public void move(double xDist,double yDist) {//used by user - moves xDist pixels L/R, yDist pixels U/D
-        node.relocate(node.getLayoutX()+xDist,node.getLayoutY()+yDist);
+        node.relocate(node.getLayoutX()+xDist+node.getBoundsInLocal().getMinX(),node.getLayoutY()+yDist+node.getBoundsInLocal().getMinY());
     }
 
 

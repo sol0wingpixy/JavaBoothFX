@@ -22,6 +22,7 @@ public class Game {
     private double height;
     private List<Sprite> sprites;
     private AnimationTimer animationTimer;
+    private AnimationTimer scrollingTimer;
     private EventHandler pressedHandler;
     private EventHandler releasedHandler;
     private KeyStates states;
@@ -34,7 +35,7 @@ public class Game {
         this.width = width;
         this.height = height;
         states = new KeyStates();
-        viewManager = new ViewManager(0,0);
+        viewManager = new ViewManager(states,0,0);
     }
 
     public Game() {
@@ -92,6 +93,7 @@ public class Game {
 
         startAnimation();//see startAnimation
         startListening(stage);//see startListening
+        startScrolling();
     }
 
     //starts the animation timer that calls the Sprite runPerTick, checks collision
@@ -138,5 +140,15 @@ public class Game {
         };
 
         stage.addEventHandler(KeyEvent.KEY_RELEASED,releasedHandler);
+    }
+    public void startScrolling()
+    {
+        scrollingTimer = new AnimationTimer() {//run at 60 fps
+            @Override
+            public void handle(long now) {
+                viewManager.tick();
+            }
+        };
+        scrollingTimer.start();
     }
 }
