@@ -3,6 +3,7 @@ package jbfx.sample;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import jbfx.Physics;
 import jbfx.Sprite;
 
 /**
@@ -10,21 +11,19 @@ import jbfx.Sprite;
  */
 public class Player extends Sprite {
 
-    public Player(Node node)
-    {
-        super(node);
-        move(100,100);
-    }
-    private double xVel = 0;
-    private double yVel = 0;
-    private double gravity = .1;
+    private Physics physics;
     private double step = 3;
     private int coinCount = 0;
 
+    public Player(Node node)
+    {
+        super(node);
+        physics = new Physics(this);
+    }
+
     public void runPerTick(long now)
     {
-        move(xVel,yVel);
-        yVel+=gravity;
+        physics.tick();
         if(keyPressed(KeyCode.D))
             moveX(step);
         if(keyPressed(KeyCode.A))
@@ -34,7 +33,7 @@ public class Player extends Sprite {
     {
         if(keyEvent.getCode()== KeyCode.W)//jump
         {
-            yVel = -3;
+            physics.jump(3);
         }
     }
     public void collidesWith(Sprite other) {
@@ -45,7 +44,7 @@ public class Player extends Sprite {
         }
         else
         {
-            yVel = 0;
+            physics.hitFloor();
         }
     }
 }

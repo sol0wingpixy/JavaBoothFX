@@ -1,8 +1,6 @@
-package jbfx.sample;
+package jbfx;
 
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import jbfx.KeyStates;
 
 /**
  * Created by miller5157r on 5/16/2017.

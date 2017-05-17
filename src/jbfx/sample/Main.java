@@ -1,13 +1,10 @@
 package jbfx.sample;
 
-import javafx.application.Application;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-import jbfx.Sprite;
 import jbfx.Game;
-import jbfx.Window;
 //user is required to understand:
 //  JavaFX Nodes - shapes or images, really
 //  Extending an abstract class (Sprite)

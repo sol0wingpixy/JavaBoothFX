@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.util.ArrayList;
 //this is the JavaFX Application that runs - creates the window
 public class Window extends Application {
     private static Game game;//game holds all actual variables
