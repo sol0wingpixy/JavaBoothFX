@@ -1,5 +1,6 @@
 package jbfx.sample;
 
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -27,12 +28,15 @@ public class Main {
         //Sprites must be put into the local game to exist - what the user sees.
 
         Bug omnom = new Bug(new Polygon(10,10,0,0,0,20),0);
-
         omnom.move(300,300);
+
+        Flasher spicey = new Flasher(new Circle(100,Color.YELLOW));
+
         game.addSprite(bob);
         game.addSprite(coin);
         game.addSprite(floor);
         game.addSprite(omnom);
+        game.addSprite(spicey);
 
         //once everything's set, start the game.
         game.startGame();

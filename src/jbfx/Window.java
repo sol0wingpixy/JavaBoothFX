@@ -15,9 +15,10 @@ public class Window extends Application {
     public void start(Stage stage) {
         System.out.println("Starting Application");//debug
         Group root = new Group();
+        Group animatedGroup = new Group();
         Scene scene = new Scene(root);
         //get all sprites drawn to screen, timers, etc.
-        game.makeScene(root,stage);
+        game.makeScene(root,animatedGroup,stage);
 
         stage.setScene(scene);
         stage.show();
