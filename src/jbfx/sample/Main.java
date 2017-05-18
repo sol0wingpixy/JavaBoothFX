@@ -27,8 +27,9 @@ public class Main {
         Floor floor = new Floor(450,game);
         //Sprites must be put into the local game to exist - what the user sees.
 
-        Bug omnom = new Bug(new Polygon(10,10,0,0,0,20),0);
+        Bug omnom = new Bug(new Polygon(30,30,0,0,0,60),0);
         omnom.move(300,300);
+
 
         Flasher spicey = new Flasher(new Circle(100,Color.YELLOW));
 

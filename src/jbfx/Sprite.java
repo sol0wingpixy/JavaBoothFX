@@ -25,11 +25,13 @@ public abstract class Sprite {//to be implemented by user
         this(new Rectangle(10,10));
     }
 
+    //ABSTRACT METHODS
     public abstract void runPerTick(long now);//executed 60 times a second by Game
 
     public abstract void whenKeyPressed(KeyEvent event);//whenever a key is pressed
 
     public abstract void collidesWith(Sprite other);//checks collision every tick
+
 
     public void setParentGame(Game game){//used by Game.java
         parentGame = game;

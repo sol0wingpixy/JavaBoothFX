@@ -117,6 +117,10 @@ public class Game {
                     sprite.setOffset(viewManager.getOffsetX(),viewManager.getOffsetY());
                     sprite.runPerTick(now);//whatever user defines
                 }
+                for(Sprite sprite:animatedSprites) {
+                    sprite.setOffset(viewManager.getOffsetX(),viewManager.getOffsetY());
+                    sprite.runPerTick(now);//whatever user defines
+                }
                 //Could set up another AnimationTimer to check collision - should?
                 for(int i=0;i<sprites.size();i++)//every sprite
                 {
