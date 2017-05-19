@@ -12,7 +12,7 @@ public abstract class Sprite {//to be implemented by user
     private double offsetX = 0;
     private double offsetY = 0;
 
-    public Sprite(Node inNode,double heading) {
+    public Sprite(Node inNode, double heading) {
         node = inNode;
         this.heading = heading;
     }
@@ -79,6 +79,14 @@ public abstract class Sprite {//to be implemented by user
 
     public void move(double xDist,double yDist) {//used by user - moves xDist pixels L/R, yDist pixels U/D
         node.relocate(node.getLayoutX()+xDist+node.getBoundsInLocal().getMinX(),node.getLayoutY()+yDist+node.getBoundsInLocal().getMinY());
+    }
+
+    public double getOffsetX() {
+        return offsetX;
+    }
+
+    public double getOffsetY() {
+        return offsetY;
     }
 
     public Node getNode() {//needed for collision, setting up drawing

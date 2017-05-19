@@ -20,11 +20,10 @@ public class Game {
     private List<AnimatedSprite> animatedSprites;
     private Group animatedGroup;
     private AnimationTimer animationTimer;
-    private AnimationTimer scrollingTimer;
     private EventHandler pressedHandler;
     private EventHandler releasedHandler;
     private KeyStates states;
-    private ViewManager viewManager;
+    private ViewManager camera;
     private boolean launched = false;
 
     public Game(double width,double height)
@@ -34,7 +33,7 @@ public class Game {
         this.width = width;
         this.height = height;
         states = new KeyStates();
-        viewManager = new ViewManager(states,0,0);
+        camera = new ViewManager(states,0,0);
     }
 
     public Game() {
@@ -75,8 +74,25 @@ public class Game {
         return sprites;
     }
 
-    //Everything above used to set up instance variables.
-    //Below is actual work
+    public void scroll(double x,double y) {
+        camera.move(x,y);
+    }
+    public void scrollX(double xOffset){
+        camera.moveX(xOffset);
+    }
+    public void scrollY(double yOffset){
+        camera.moveY(yOffset);
+    }
+    public void scrollTo(double xCo,double yCo) {
+        camera.offsetTo(xCo,yCo);
+    }
+    public void centerOn(double xCo,double yCo){
+        camera.offsetTo(xCo+width/2,yCo+height/2);
+    }
+    public void centerOn(Sprite object){
+        Node centerTo = object.getNode();
+        centerOn(-(centerTo.getLayoutX()-object.getOffsetX()),-(centerTo.getLayoutY()-object.getOffsetY()));
+    }
 
     //startGame is last method call from user's Main - starts game running.
     public void startGame() {
@@ -101,7 +117,6 @@ public class Game {
 
         startAnimation();//see startAnimation
         startListening(stage);//see startListening
-        startScrolling();
     }
 
     //starts the animation timer that calls the Sprite runPerTick, checks collision
@@ -114,11 +129,11 @@ public class Game {
                     toAnimate.set(i,animatedSprites.get(i).nextFrame());
                 }
                 for (Sprite sprite:sprites) {//go through all sprites, tick them
-                    sprite.setOffset(viewManager.getOffsetX(),viewManager.getOffsetY());
+                    sprite.setOffset(camera.getOffsetX(), camera.getOffsetY());
                     sprite.runPerTick(now);//whatever user defines
                 }
                 for(Sprite sprite:animatedSprites) {
-                    sprite.setOffset(viewManager.getOffsetX(),viewManager.getOffsetY());
+                    sprite.setOffset(camera.getOffsetX(), camera.getOffsetY());
                     sprite.runPerTick(now);//whatever user defines
                 }
                 //Could set up another AnimationTimer to check collision - should?
@@ -156,15 +171,5 @@ public class Game {
         };
 
         stage.addEventHandler(KeyEvent.KEY_RELEASED,releasedHandler);
-    }
-    public void startScrolling()
-    {
-        scrollingTimer = new AnimationTimer() {//run at 60 fps
-            @Override
-            public void handle(long now) {
-                viewManager.tick();
-            }
-        };
-        scrollingTimer.start();
     }
 }

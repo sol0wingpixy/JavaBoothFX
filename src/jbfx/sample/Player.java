@@ -24,10 +24,13 @@ public class Player extends Sprite {
     public void runPerTick(long now)
     {
         physics.tick();
-        if(keyPressed(KeyCode.D))
+        getParentGame().centerOn(this);
+        if(keyPressed(KeyCode.D)) {
             moveX(step);
-        if(keyPressed(KeyCode.A))
+        }
+        if(keyPressed(KeyCode.A)) {
             moveX(-step);
+        }
     }
     public void whenKeyPressed(KeyEvent keyEvent)
     {
