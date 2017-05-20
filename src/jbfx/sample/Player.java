@@ -24,7 +24,7 @@ public class Player extends Sprite {
     public void runPerTick(long now)
     {
         physics.tick();
-        getParentGame().centerOn(this);
+        centerCamera();
         if(keyPressed(KeyCode.D)) {
             moveX(step);
         }
@@ -36,7 +36,7 @@ public class Player extends Sprite {
     {
         if(keyEvent.getCode()== KeyCode.W)//jump
         {
-            physics.jump(3);
+            physics.jump(4);
         }
     }
     public void collidesWith(Sprite other) {

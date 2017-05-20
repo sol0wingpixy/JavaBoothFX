@@ -10,6 +10,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 //This is the central class for the actual execution of the Game
@@ -50,6 +51,18 @@ public class Game {
             sprite.setParentGame(this);
     }
 
+    public void addSprites(Sprite... sprites) {
+        for(Sprite sprite : sprites){
+            addSprite(sprite);
+        }
+    }
+
+    public void addSprites(Collection<Sprite> sprites){
+        for(Sprite sprite : sprites){
+            addSprite(sprite);
+        }
+    }
+
     public double getWidth() {
         return width;
     }
@@ -77,18 +90,23 @@ public class Game {
     public void scroll(double x,double y) {
         camera.move(x,y);
     }
+
     public void scrollX(double xOffset){
         camera.moveX(xOffset);
     }
+
     public void scrollY(double yOffset){
         camera.moveY(yOffset);
     }
+
     public void scrollTo(double xCo,double yCo) {
         camera.offsetTo(xCo,yCo);
     }
+
     public void centerOn(double xCo,double yCo){
         camera.offsetTo(xCo+width/2,yCo+height/2);
     }
+
     public void centerOn(Sprite object){
         Node centerTo = object.getNode();
         centerOn(-(centerTo.getLayoutX()-object.getOffsetX()),-(centerTo.getLayoutY()-object.getOffsetY()));

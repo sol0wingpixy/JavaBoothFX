@@ -8,7 +8,7 @@ import javafx.scene.shape.Rectangle;
 public abstract class Sprite {//to be implemented by user
     private Node node;
     private double heading;
-    private Game parentGame;//needed for accessing KeyStates
+    private Game parentGame;//needed for accessing KeyStates and camera
     private double offsetX = 0;
     private double offsetY = 0;
 
@@ -45,6 +45,10 @@ public abstract class Sprite {//to be implemented by user
         move(offX-offsetX,offY-offsetY);
         offsetX = offX;
         offsetY = offY;
+    }
+
+    public void centerCamera() {
+        parentGame.centerOn(this);
     }
 
     public boolean keyPressed(KeyCode code){//intended for access by user's implementation
