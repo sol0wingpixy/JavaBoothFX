@@ -2,12 +2,16 @@ package jbfx;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 //This is the central class for the actual execution of the Game
@@ -15,21 +19,25 @@ public class Game {
     private double width;
     private double height;
     private List<Sprite> sprites;
+    private List<AnimatedSprite> animatedSprites;
+    private Group animatedGroup;
     private AnimationTimer animationTimer;
-    private AnimationTimer scrollingTimer;
     private EventHandler pressedHandler;
     private EventHandler releasedHandler;
     private KeyStates states;
-    private ViewManager viewManager;
+    private ViewManager camera;
+    GameInfo gameInfo;
     private boolean launched = false;
 
     public Game(double width,double height)
     {
-        sprites = new ArrayList<Sprite>();
+        sprites = new ArrayList<>();
+        animatedSprites = new ArrayList<>();
         this.width = width;
         this.height = height;
         states = new KeyStates();
-        viewManager = new ViewManager(states,0,0);
+        camera = new ViewManager(states,0,0);
+        gameInfo = new GameInfo(this);
     }
 
     public Game() {
@@ -37,8 +45,25 @@ public class Game {
     }
 
     public void addSprite(Sprite sprite) {
-            sprites.add(sprite);
+            if(sprite instanceof AnimatedSprite) {
+                animatedSprites.add((AnimatedSprite)sprite);
+            }
+            else {
+                sprites.add(sprite);
+            }
             sprite.setParentGame(this);
+    }
+
+    public void addSprites(Sprite... sprites) {
+        for(Sprite sprite : sprites){
+            addSprite(sprite);
+        }
+    }
+
+    public void addSprites(Collection<Sprite> sprites){
+        for(Sprite sprite : sprites){
+            addSprite(sprite);
+        }
     }
 
     public double getWidth() {
@@ -65,8 +90,30 @@ public class Game {
         return sprites;
     }
 
-    //Everything above used to set up instance variables.
-    //Below is actual work
+    public void scroll(double x,double y) {
+        camera.move(x,y);
+    }
+
+    public void scrollX(double xOffset){
+        camera.moveX(xOffset);
+    }
+
+    public void scrollY(double yOffset){
+        camera.moveY(yOffset);
+    }
+
+    public void scrollTo(double xCo,double yCo) {
+        camera.offsetTo(xCo,yCo);
+    }
+
+    public void centerOn(double xCo,double yCo){
+        camera.offsetTo(xCo+width/2,yCo+height/2);
+    }
+
+    public void centerOn(Sprite object){
+        Node centerTo = object.getNode();
+        centerOn(-(centerTo.getLayoutX()-object.getOffsetX()),-(centerTo.getLayoutY()-object.getOffsetY()));
+    }
 
     //startGame is last method call from user's Main - starts game running.
     public void startGame() {
@@ -76,18 +123,24 @@ public class Game {
     }
 
     //makeScene starts the thread processes, assigns sprites to be drawn
-    public void makeScene(Group root, Stage stage) {
+    public void makeScene(Group root,Group animatedGroup, Stage stage) {
         //add all Sprite nodes to root to draw
-        for (Sprite sprite : getSprites()) {
+        for (Sprite sprite : sprites) {
             root.getChildren().add(sprite.getNode());
         }
+        for(Sprite sprite : animatedSprites) {
+            animatedGroup.getChildren().add(sprite.getNode());
+        }
+        this.animatedGroup = animatedGroup;
+        root.getChildren().add(animatedGroup);
+        gameInfo.update(this);
+        root.getChildren().add(gameInfo.getNode());
         //obvious
         stage.setWidth(getWidth());
         stage.setHeight(getHeight());
 
         startAnimation();//see startAnimation
         startListening(stage);//see startListening
-        startScrolling();
     }
 
     //starts the animation timer that calls the Sprite runPerTick, checks collision
@@ -95,8 +148,16 @@ public class Game {
         animationTimer = new AnimationTimer() {//run at 60 fps
             @Override
             public void handle(long now) {
+                ObservableList<Node> toAnimate = animatedGroup.getChildren();
+                for(int i=0;i<toAnimate.size();i++) {
+                    toAnimate.set(i,animatedSprites.get(i).nextFrame());
+                }
                 for (Sprite sprite:sprites) {//go through all sprites, tick them
-                    sprite.setOffset(viewManager.getOffsetX(),viewManager.getOffsetY());
+                    sprite.setOffset(camera.getOffsetX(), camera.getOffsetY());
+                    sprite.runPerTick(now);//whatever user defines
+                }
+                for(Sprite sprite:animatedSprites) {
+                    sprite.setOffset(camera.getOffsetX(), camera.getOffsetY());
                     sprite.runPerTick(now);//whatever user defines
                 }
                 //Could set up another AnimationTimer to check collision - should?
@@ -114,6 +175,25 @@ public class Game {
             }
         };
         animationTimer.start();
+        Game game = this;
+        new AnimationTimer(){
+            public void handle(long now)
+            {
+                if(states.isKeyPressed(KeyCode.I)) {
+                    camera.moveY(3);
+                }
+                if(states.isKeyPressed(KeyCode.J)) {
+                    camera.moveX(3);
+                }
+                if(states.isKeyPressed(KeyCode.K)) {
+                    camera.moveY(-3);
+                }
+                if(states.isKeyPressed(KeyCode.L)) {
+                    camera.moveX(-3);
+                }
+                gameInfo.update(game);
+            }
+        }.start();
     }
 
     public void startListening(Stage stage) {//will handle keys being pressed
@@ -132,17 +212,6 @@ public class Game {
                 states.keyReleased(keyEvent.getCode());//have KeyStates remember that key is released
             }
         };
-
         stage.addEventHandler(KeyEvent.KEY_RELEASED,releasedHandler);
-    }
-    public void startScrolling()
-    {
-        scrollingTimer = new AnimationTimer() {//run at 60 fps
-            @Override
-            public void handle(long now) {
-                viewManager.tick();
-            }
-        };
-        scrollingTimer.start();
     }
 }

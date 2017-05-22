@@ -24,16 +24,19 @@ public class Player extends Sprite {
     public void runPerTick(long now)
     {
         physics.tick();
-        if(keyPressed(KeyCode.D))
+        //centerCamera();
+        if(keyPressed(KeyCode.D)) {
             moveX(step);
-        if(keyPressed(KeyCode.A))
+        }
+        if(keyPressed(KeyCode.A)) {
             moveX(-step);
+        }
     }
     public void whenKeyPressed(KeyEvent keyEvent)
     {
         if(keyEvent.getCode()== KeyCode.W)//jump
         {
-            physics.jump(3);
+            physics.jump(4);
         }
     }
     public void collidesWith(Sprite other) {

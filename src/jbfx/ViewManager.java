@@ -22,26 +22,6 @@ public class ViewManager {
         this(states,0,0);
     }
 
-    public void tick()
-    {
-        if(states.isKeyPressed(KeyCode.I))
-        {
-            offsetY += 3;
-        }
-        if(states.isKeyPressed(KeyCode.J))
-        {
-            offsetX += 3;
-        }
-        if(states.isKeyPressed(KeyCode.K))
-        {
-            offsetY -= 3;
-        }
-        if(states.isKeyPressed(KeyCode.L))
-        {
-            offsetX -= 3;
-        }
-    }
-
     public double getOffsetX() {
         return offsetX;
     }
@@ -58,5 +38,23 @@ public class ViewManager {
         this.offsetY = offsetY;
     }
 
+    public void moveX(double moveX)
+    {
+        offsetX+=moveX;
+    }
+    public void moveY(double moveY)
+    {
+        offsetY+=moveY;
+    }
+    public void move(double moveX,double moveY)
+    {
+        offsetX+=moveX;
+        offsetY+=moveY;
+    }
 
+    public void offsetTo(double xCo,double yCo)
+    {
+        offsetX = xCo;
+        offsetY = yCo;
+    }
 }

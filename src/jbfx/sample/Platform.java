@@ -8,10 +8,10 @@ import jbfx.Sprite;
 /**
  * Created by miller5157r on 5/2/2017.
  */
-public class Floor extends Sprite {
-    public Floor(double height,Game game)
+public class Platform extends Sprite {
+    public Platform(double x,double y,double width,double height)
     {
-        super(new Rectangle(0,height,game.getWidth(),game.getHeight()-height));
+        super(new Rectangle(x,y,width,height));
     }
     
     @Override

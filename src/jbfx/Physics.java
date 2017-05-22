@@ -22,6 +22,20 @@ public class Physics {
             yVel += gravity;
         }
         object.move(xVel,yVel);
+        object.moveY(1);
+        boolean falling = true;
+        for(Sprite sprite:object.getParentGame().getSprites())
+        {
+            if(!(sprite.equals(object))&&sprite.getNode().getBoundsInParent().intersects(object.getNode().getBoundsInParent()))//true if collides with something
+            {
+                falling = false;
+            }
+        }
+        if(falling)
+            onFloor = false;
+        else
+            onFloor = true;
+        object.moveY(-1);
     }
     public void hitFloor()
     {

@@ -8,11 +8,11 @@ import javafx.scene.shape.Rectangle;
 public abstract class Sprite {//to be implemented by user
     private Node node;
     private double heading;
-    private Game parentGame;//needed for accessing KeyStates
+    private Game parentGame;//needed for accessing KeyStates and camera
     private double offsetX = 0;
     private double offsetY = 0;
 
-    public Sprite(Node inNode,double heading) {
+    public Sprite(Node inNode, double heading) {
         node = inNode;
         this.heading = heading;
     }
@@ -25,11 +25,13 @@ public abstract class Sprite {//to be implemented by user
         this(new Rectangle(10,10));
     }
 
+    //ABSTRACT METHODS
     public abstract void runPerTick(long now);//executed 60 times a second by Game
 
     public abstract void whenKeyPressed(KeyEvent event);//whenever a key is pressed
 
     public abstract void collidesWith(Sprite other);//checks collision every tick
+
 
     public void setParentGame(Game game){//used by Game.java
         parentGame = game;
@@ -43,6 +45,10 @@ public abstract class Sprite {//to be implemented by user
         move(offX-offsetX,offY-offsetY);
         offsetX = offX;
         offsetY = offY;
+    }
+
+    public void centerCamera() {
+        parentGame.centerOn(this);
     }
 
     public boolean keyPressed(KeyCode code){//intended for access by user's implementation
@@ -77,6 +83,14 @@ public abstract class Sprite {//to be implemented by user
 
     public void move(double xDist,double yDist) {//used by user - moves xDist pixels L/R, yDist pixels U/D
         node.relocate(node.getLayoutX()+xDist+node.getBoundsInLocal().getMinX(),node.getLayoutY()+yDist+node.getBoundsInLocal().getMinY());
+    }
+
+    public double getOffsetX() {
+        return offsetX;
+    }
+
+    public double getOffsetY() {
+        return offsetY;
     }
 
     public Node getNode() {//needed for collision, setting up drawing
