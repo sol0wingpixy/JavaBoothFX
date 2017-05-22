@@ -60,6 +60,6 @@ public abstract class AnimatedSprite extends Sprite {
 
     public Node nextFrame() {
         currentAnimationFrame %= currentAnimation.size();
-        return currentAnimation.get(currentAnimationFrame);
+        return currentAnimation.get(currentAnimationFrame++);
     }
 }
