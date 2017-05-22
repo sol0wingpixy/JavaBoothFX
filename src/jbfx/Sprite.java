@@ -46,7 +46,10 @@ public abstract class Sprite {//to be implemented by user
         offsetX = offX;
         offsetY = offY;
     }
-
+    protected void changeOffsetValues(double offX,double offY) {
+        offsetX = offX;
+        offsetY = offY;
+    }
     public void centerCamera() {
         parentGame.centerOn(this);
     }

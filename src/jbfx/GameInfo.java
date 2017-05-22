@@ -16,7 +16,6 @@ public class GameInfo {
     public GameInfo(Game game)
     {
         node = new Text();
-        node.relocate(0,0);
         update(game);
     }
     public void update(Game game)

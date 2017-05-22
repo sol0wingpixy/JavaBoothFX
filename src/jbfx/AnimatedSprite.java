@@ -35,11 +35,19 @@ public abstract class AnimatedSprite extends Sprite {
     /* Default AnimatedSprite is a Rectangle that changes color */
     public AnimatedSprite() {
         this(Arrays.asList(
-                new Rectangle(10, 10, Color.RED),
-                new Rectangle(10, 10, Color.GREEN),
-                new Rectangle(10, 10, Color.BLUE)));
+                new Rectangle(100, 100, Color.RED),
+                new Rectangle(100, 100, Color.GREEN),
+                new Rectangle(100, 100, Color.BLUE)));
     }
-
+    @Override
+    public void setOffset(double offX,double offY) {
+        for (Map.Entry<String, List<Node>> entry : animationMap.entrySet()) {
+            for (Node node : entry.getValue()) {
+                node.relocate(node.getLayoutX()+offX-getOffsetX()+node.getBoundsInLocal().getMinX(),node.getLayoutY()+offY-getOffsetY()+node.getBoundsInLocal().getMinY());
+            }
+        }
+        changeOffsetValues(offX,offY);
+    }
     @Override
     public void rotate(double theta) {
         setHeading(getHeading() + theta);

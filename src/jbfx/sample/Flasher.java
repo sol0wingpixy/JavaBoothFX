@@ -6,13 +6,15 @@ import javafx.scene.input.KeyEvent;
 import jbfx.AnimatedSprite;
 import jbfx.Sprite;
 
+import java.util.List;
+
 /**
  * Created by miller5157r on 5/18/2017.
  */
 public class Flasher extends AnimatedSprite {
-    public Flasher(Node inNode)
+    public Flasher()
     {
-        super(inNode);
+        super();
     }
     @Override
     public void runPerTick(long now) {

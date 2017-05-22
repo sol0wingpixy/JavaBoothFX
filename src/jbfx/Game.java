@@ -20,6 +20,7 @@ public class Game {
     private double height;
     private List<Sprite> sprites;
     private List<AnimatedSprite> animatedSprites;
+    private List<Sprite> allSprites;
     private Group animatedGroup;
     private AnimationTimer animationTimer;
     private EventHandler pressedHandler;
@@ -33,6 +34,7 @@ public class Game {
     {
         sprites = new ArrayList<>();
         animatedSprites = new ArrayList<>();
+        allSprites = new ArrayList<>();
         this.width = width;
         this.height = height;
         states = new KeyStates();
@@ -51,6 +53,7 @@ public class Game {
             else {
                 sprites.add(sprite);
             }
+            allSprites.add(sprite);
             sprite.setParentGame(this);
     }
 
@@ -89,6 +92,8 @@ public class Game {
     public List<Sprite> getSprites() {
         return sprites;
     }
+
+    public List<Sprite> getAllSprites() {return allSprites;}
 
     public void scroll(double x,double y) {
         camera.move(x,y);

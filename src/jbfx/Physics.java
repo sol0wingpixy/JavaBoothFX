@@ -18,17 +18,25 @@ public class Physics {
     }
     public void tick()
     {
-        if(!onFloor) {
+        if(onFloor) {
+            yVel = 0;
+        }
+        else{
             yVel += gravity;
         }
         object.move(xVel,yVel);
         object.moveY(1);
         boolean falling = true;
-        for(Sprite sprite:object.getParentGame().getSprites())
+        for(Sprite sprite:object.getParentGame().getAllSprites())
         {
             if(!(sprite.equals(object))&&sprite.getNode().getBoundsInParent().intersects(object.getNode().getBoundsInParent()))//true if collides with something
             {
                 falling = false;
+                while(sprite.getNode().getBoundsInParent().intersects(object.getNode().getBoundsInParent()))//check collision
+                {
+                    object.moveY(-1);
+                }
+                object.moveY(1);
             }
         }
         if(falling)
@@ -41,7 +49,7 @@ public class Physics {
     {
         yVel = 0;
         onFloor = true;
-        List<Sprite> allSprites = object.getParentGame().getSprites();
+        List<Sprite> allSprites = object.getParentGame().getAllSprites();
         for(Sprite sprite:allSprites)
         {
             while(!(sprite.equals(object))&&sprite.getNode().getBoundsInParent().intersects(object.getNode().getBoundsInParent()))//check collision
