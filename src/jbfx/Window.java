@@ -19,7 +19,6 @@ public class Window extends Application {
         Scene scene = new Scene(root);
         //get all sprites drawn to screen, timers, etc.
         game.makeScene(root,animatedGroup,stage);
-        root.getChildren().add(animatedGroup);
         stage.setScene(scene);
         stage.show();
     }

@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -25,6 +26,7 @@ public class Game {
     private EventHandler releasedHandler;
     private KeyStates states;
     private ViewManager camera;
+    GameInfo gameInfo;
     private boolean launched = false;
 
     public Game(double width,double height)
@@ -35,6 +37,7 @@ public class Game {
         this.height = height;
         states = new KeyStates();
         camera = new ViewManager(states,0,0);
+        gameInfo = new GameInfo(this);
     }
 
     public Game() {
@@ -129,6 +132,9 @@ public class Game {
             animatedGroup.getChildren().add(sprite.getNode());
         }
         this.animatedGroup = animatedGroup;
+        root.getChildren().add(animatedGroup);
+        gameInfo.update(this);
+        root.getChildren().add(gameInfo.getNode());
         //obvious
         stage.setWidth(getWidth());
         stage.setHeight(getHeight());
@@ -169,6 +175,25 @@ public class Game {
             }
         };
         animationTimer.start();
+        Game game = this;
+        new AnimationTimer(){
+            public void handle(long now)
+            {
+                if(states.isKeyPressed(KeyCode.I)) {
+                    camera.moveY(3);
+                }
+                if(states.isKeyPressed(KeyCode.J)) {
+                    camera.moveX(3);
+                }
+                if(states.isKeyPressed(KeyCode.K)) {
+                    camera.moveY(-3);
+                }
+                if(states.isKeyPressed(KeyCode.L)) {
+                    camera.moveX(-3);
+                }
+                gameInfo.update(game);
+            }
+        }.start();
     }
 
     public void startListening(Stage stage) {//will handle keys being pressed
@@ -187,7 +212,6 @@ public class Game {
                 states.keyReleased(keyEvent.getCode());//have KeyStates remember that key is released
             }
         };
-
         stage.addEventHandler(KeyEvent.KEY_RELEASED,releasedHandler);
     }
 }

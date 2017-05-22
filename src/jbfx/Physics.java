@@ -26,14 +26,15 @@ public class Physics {
         boolean falling = true;
         for(Sprite sprite:object.getParentGame().getSprites())
         {
-            if(!(sprite.equals(object))&&sprite.getNode().getBoundsInParent().intersects(object.getNode().getBoundsInParent()))//check collision
+            if(!(sprite.equals(object))&&sprite.getNode().getBoundsInParent().intersects(object.getNode().getBoundsInParent()))//true if collides with something
             {
-                falling = true;
-                break;
+                falling = false;
             }
         }
         if(falling)
             onFloor = false;
+        else
+            onFloor = true;
         object.moveY(-1);
     }
     public void hitFloor()

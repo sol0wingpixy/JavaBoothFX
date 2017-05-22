@@ -24,7 +24,7 @@ public class Player extends Sprite {
     public void runPerTick(long now)
     {
         physics.tick();
-        centerCamera();
+        //centerCamera();
         if(keyPressed(KeyCode.D)) {
             moveX(step);
         }

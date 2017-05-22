@@ -23,7 +23,7 @@ public class Main {
         game.setWidth(1000);
 
         //Sprites are implemented by the user - see Player, Collectable, Floor classes
-        Rectangle bobBox = new Rectangle(10,15,Color.STEELBLUE);
+        Rectangle bobBox = new Rectangle(20,15,Color.STEELBLUE);
         //The default Sprite class uses a JavaFX Node - simple option is javafx shape
         Player bob = new Player(bobBox);
         bob.move(0,-10);
