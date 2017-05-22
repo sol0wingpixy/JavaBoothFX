@@ -9,14 +9,19 @@ import java.util.*;
 public abstract class AnimatedSprite extends Sprite {
     private Map<String, List<Node>> animationMap;
     private List<Node> currentAnimation;
-    private int currentAnimationFrame;
+    private int currentAnimationFrameIndex;
+    /* The next frame in an animation is displayed every animationFrameRefreshDelay times nextFrame() is called */
+    private int animationFrameRefreshDelay;
+    private int animationFrameRefreshDelayCounter;
 
     public AnimatedSprite(List<Node> animationFrames, String animationName, double heading) {
         super(animationFrames.get(0), heading);
         animationMap = new HashMap<>();
         animationMap.put(animationName, animationFrames);
         currentAnimation = animationFrames;
-        currentAnimationFrame = 0;
+        currentAnimationFrameIndex = 0;
+        animationFrameRefreshDelay = 1;
+        animationFrameRefreshDelayCounter = 1;
     }
 
     public AnimatedSprite(List<Node> animationFrames, String animationName) {
@@ -47,7 +52,7 @@ public abstract class AnimatedSprite extends Sprite {
 
     @Override
     public Node getNode() {
-        return currentAnimation.get(currentAnimationFrame);
+        return currentAnimation.get(currentAnimationFrameIndex);
     }
 
     public void addAnimation(String animationName, List<Node> animationFrames) {
@@ -58,8 +63,28 @@ public abstract class AnimatedSprite extends Sprite {
         currentAnimation = animationMap.get(animationName);
     }
 
+    /* Returns the frame that should be displayed by the
+       current animation (dependent on animationFPS).
+       Called 60 times per second by Game.
+     */
     public Node nextFrame() {
-        currentAnimationFrame %= currentAnimation.size();
-        return currentAnimation.get(currentAnimationFrame++);
+        currentAnimationFrameIndex %= currentAnimation.size(); //loops animation frame back to start, if applicable
+        if (animationFrameRefreshDelay == animationFrameRefreshDelayCounter++) {
+            animationFrameRefreshDelayCounter = 1;
+            return currentAnimation.get(currentAnimationFrameIndex++);
+        }
+        return currentAnimation.get(currentAnimationFrameIndex);
+    }
+
+    /* Sets animationFrameRefreshDelay based on supplied input.
+       Supplied animation FPS must be a factor of 60,
+       else, do nothing.
+     */
+    public void setAnimationFPS(int fps) {
+        if (60 % fps == 0) {
+            animationFrameRefreshDelay = 60 / fps;
+        } else {
+            System.out.println("FPS must be a factor of 60. FPS value defaulted to 60.");
+        }
     }
 }
