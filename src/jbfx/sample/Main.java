@@ -39,7 +39,7 @@ public class Main {
         game.addSprite(bob);
         game.addSprites(floors);
 
-        //* start testing block
+        /* start testing block
         Bug omnom = new Bug(new Polygon(30,30,0,0,0,60),0);
         omnom.move(300,300);
 

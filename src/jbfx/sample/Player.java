@@ -3,6 +3,8 @@ package jbfx.sample;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import jbfx.Physics;
 import jbfx.Sprite;
 
@@ -37,6 +39,10 @@ public class Player extends Sprite {
         if(keyEvent.getCode()== KeyCode.W)//jump
         {
             physics.jump(4);
+        }
+        if(keyEvent.getCode()==KeyCode.TAB)
+        {
+            getParentGame().addSprite(new Collectable(new Circle(10, Color.BLUE)));
         }
     }
     public void collidesWith(Sprite other) {

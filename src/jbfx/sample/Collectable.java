@@ -24,6 +24,11 @@ public class Collectable extends Sprite {
 
     @Override
     public void collidesWith(Sprite other) {
+        if(other instanceof Player)
+        {
+            System.out.println("DEAD!");
+            removeThis();
+        }
         System.out.println("PONG!");
         if(Math.random()<.5)
             moveX(Math.random()*100+20);

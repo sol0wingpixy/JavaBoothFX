@@ -21,13 +21,14 @@ public class Game {
     private List<Sprite> sprites;
     private List<AnimatedSprite> animatedSprites;
     private List<Sprite> allSprites;
+    private Group spriteGroup;
     private Group animatedGroup;
     private AnimationTimer animationTimer;
     private EventHandler pressedHandler;
     private EventHandler releasedHandler;
     private KeyStates states;
     private ViewManager camera;
-    GameInfo gameInfo;
+    private Window window;
     private boolean launched = false;
 
     public Game(double width,double height)
@@ -39,7 +40,6 @@ public class Game {
         this.height = height;
         states = new KeyStates();
         camera = new ViewManager(states,0,0);
-        gameInfo = new GameInfo(this);
     }
 
     public Game() {
@@ -55,6 +55,11 @@ public class Game {
             }
             allSprites.add(sprite);
             sprite.setParentGame(this);
+            if(launched)
+            {
+                window.update();
+                spriteGroup.getChildren().add(sprite.getNode());
+            }
     }
 
     public void addSprites(Sprite... sprites) {
@@ -67,6 +72,11 @@ public class Game {
         for(Sprite sprite : sprites){
             addSprite(sprite);
         }
+    }
+
+    public void setWindow(Window window)
+    {
+        this.window = window;
     }
 
     public double getWidth() {
@@ -138,14 +148,14 @@ public class Game {
         }
         this.animatedGroup = animatedGroup;
         root.getChildren().add(animatedGroup);
-        gameInfo.update(this);
-        root.getChildren().add(gameInfo.getNode());
+        spriteGroup = root;
         //obvious
         stage.setWidth(getWidth());
         stage.setHeight(getHeight());
 
         startAnimation();//see startAnimation
         startListening(stage);//see startListening
+        launched = true;
     }
 
     //starts the animation timer that calls the Sprite runPerTick, checks collision
@@ -196,7 +206,6 @@ public class Game {
                 if(states.isKeyPressed(KeyCode.L)) {
                     camera.moveX(-3);
                 }
-                gameInfo.update(game);
             }
         }.start();
     }

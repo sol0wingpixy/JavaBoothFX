@@ -33,6 +33,11 @@ public abstract class Sprite {//to be implemented by user
     public abstract void collidesWith(Sprite other);//checks collision every tick
 
 
+    public void removeThis()
+    {
+        parentGame.
+    }
+
     public void setParentGame(Game game){//used by Game.java
         parentGame = game;
     }

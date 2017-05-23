@@ -12,7 +12,10 @@ public class Window extends Application {
         game = gameIn;
     }
 
-    public void start(Stage stage) {
+    private Stage stage;
+    public void start(Stage inStage) {
+        stage = inStage;
+        game.setWindow(this);
         System.out.println("Starting Application");//debug
         Group root = new Group();
         Group animatedGroup = new Group();
@@ -20,6 +23,10 @@ public class Window extends Application {
         //get all sprites drawn to screen, timers, etc.
         game.makeScene(root,animatedGroup,stage);
         stage.setScene(scene);
+        stage.show();
+    }
+    public void update()
+    {
         stage.show();
     }
 }

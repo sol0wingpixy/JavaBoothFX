@@ -35,12 +35,12 @@ public abstract class AnimatedSprite extends Sprite {
     /* Default AnimatedSprite is a Rectangle that changes color */
     public AnimatedSprite() {
         this(Arrays.asList(
-                new Rectangle(2000, 2000, Color.TRANSPARENT),
-                new Rectangle(2000, 2000, Color.RED),
-                new Rectangle(2000, 2000, Color.GREEN),
-                new Rectangle(2000, 2000, Color.YELLOW),
-                new Rectangle(2000, 2000, Color.BLUE),
-                new Rectangle(2000, 2000, Color.HOTPINK)));
+                new Rectangle(10, 10, Color.TRANSPARENT),
+                new Rectangle(10, 10, Color.RED),
+                new Rectangle(10, 10, Color.GREEN),
+                new Rectangle(10, 10, Color.YELLOW),
+                new Rectangle(10, 10, Color.BLUE),
+                new Rectangle(10, 10, Color.HOTPINK)));
     }
     @Override
     public void setOffset(double offX,double offY) {
