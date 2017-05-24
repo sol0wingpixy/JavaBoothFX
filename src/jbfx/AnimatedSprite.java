@@ -14,6 +14,16 @@ public abstract class AnimatedSprite extends Sprite {
     private int animationFrameRefreshDelay;
     private int animationFrameRefreshDelayCounter;
 
+    public AnimatedSprite(Sprite parent,List<Node> animationFrames, String animationName, double heading) {
+        super(parent,animationFrames.get(0), heading);
+        animationMap = new HashMap<>();
+        animationMap.put(animationName, animationFrames);
+        currentAnimation = animationFrames;
+        currentAnimationFrameIndex = 0;
+        animationFrameRefreshDelay = 1;
+        animationFrameRefreshDelayCounter = 1;
+    }
+
     public AnimatedSprite(List<Node> animationFrames, String animationName, double heading) {
         super(animationFrames.get(0), heading);
         animationMap = new HashMap<>();
@@ -23,6 +33,7 @@ public abstract class AnimatedSprite extends Sprite {
         animationFrameRefreshDelay = 1;
         animationFrameRefreshDelayCounter = 1;
     }
+
 
     public AnimatedSprite(List<Node> animationFrames, String animationName) {
         this(animationFrames, animationName, 0.0);

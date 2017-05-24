@@ -12,6 +12,19 @@ public abstract class Sprite {//to be implemented by user
     private double offsetX = 0;
     private double offsetY = 0;
 
+    public Sprite(Sprite parent,Node inNode,double heading)
+    {
+        node = inNode;
+        heading = heading;
+        move(parent.getX(),parent.getY());
+        changeOffsetValues(parent.getOffsetX(),parent.getOffsetY());
+    }
+
+    public Sprite(Sprite parent,Node inNode)
+    {
+        this(parent,inNode,0);
+    }
+
     public Sprite(Node inNode, double heading) {
         node = inNode;
         this.heading = heading;
@@ -35,7 +48,12 @@ public abstract class Sprite {//to be implemented by user
 
     public void removeThis()
     {
-        parentGame.
+        parentGame.removeSprite(this);
+    }
+
+    public void addSprite(Sprite sprite)
+    {
+        parentGame.addSprite(sprite);
     }
 
     public void setParentGame(Game game){//used by Game.java
@@ -100,6 +118,10 @@ public abstract class Sprite {//to be implemented by user
     public double getOffsetY() {
         return offsetY;
     }
+
+    public double getX(){return node.getLayoutX()+node.getBoundsInLocal().getWidth()/2;}
+
+    public double getY(){return node.getLayoutY()+node.getBoundsInLocal().getHeight()/2;}
 
     public Node getNode() {//needed for collision, setting up drawing
         return node;

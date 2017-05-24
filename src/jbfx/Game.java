@@ -47,19 +47,54 @@ public class Game {
     }
 
     public void addSprite(Sprite sprite) {
+        if(sprite instanceof AnimatedSprite) {
+            animatedSprites.add((AnimatedSprite)sprite);
+        }
+        else {
+            sprites.add(sprite);
+        }
+        allSprites.add(sprite);
+        sprite.setParentGame(this);
+        if(launched)
+        {
+            //window.update();
             if(sprite instanceof AnimatedSprite) {
-                animatedSprites.add((AnimatedSprite)sprite);
+                animatedGroup.getChildren().add(sprite.getNode());
             }
             else {
-                sprites.add(sprite);
-            }
-            allSprites.add(sprite);
-            sprite.setParentGame(this);
-            if(launched)
-            {
-                window.update();
                 spriteGroup.getChildren().add(sprite.getNode());
             }
+        }
+    }
+    public void removeSprite(Sprite sprite)
+    {
+        try {
+            if (sprite instanceof AnimatedSprite) {
+                if (!animatedSprites.remove(sprite))
+                    throw new NoSuchSpriteException("Trying to remove sprite that is not there.");
+            } else {
+                if (!sprites.remove(sprite))
+                    throw new NoSuchSpriteException("Trying to remove sprite that is not there.");
+            }
+            if (!allSprites.remove(sprite))
+                throw new NoSuchSpriteException("Trying to remove sprite that is not there.");
+
+            if(launched)
+            {
+                if(sprite instanceof AnimatedSprite) {
+                    if(!animatedGroup.getChildren().remove(sprite.getNode()))
+                        throw new NoSuchSpriteException("Trying to remove sprite that is not there.");
+                }
+                else {
+                    if(!spriteGroup.getChildren().remove(sprite.getNode()))
+                        throw new NoSuchSpriteException("Trying to remove sprite that is not there.");
+                }
+            }
+        }
+        catch (NoSuchSpriteException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void addSprites(Sprite... sprites) {
@@ -83,12 +118,12 @@ public class Game {
         return width;
     }
 
-    public double getHeight() {
-        return height;
-    }
-
     public void setWidth(double width) {
         this.width = width;
+    }
+
+    public double getHeight() {
+        return height;
     }
 
     public void setHeight(double height) {

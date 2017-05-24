@@ -37,7 +37,7 @@ public class Bug extends Sprite {
     @Override
     public void whenKeyPressed(KeyEvent event) {
         if(event.getCode()==KeyCode.SPACE) {
-
+            addSprite(new Bullet(Math.cos(Math.toRadians(getHeading())),Math.sin(Math.toRadians(getHeading())),this));
         }
     }
 
