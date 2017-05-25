@@ -31,6 +31,9 @@ public class Bullet extends Sprite {
     @Override
     public void collidesWith(Sprite other) {
         if(!(other.equals(parent)||other instanceof Bullet))
-        removeThis();
+        {
+            removeThis();
+            addSprite(new Explosion(this));
+        }
     }
 }

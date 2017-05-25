@@ -14,14 +14,21 @@ public abstract class AnimatedSprite extends Sprite {
     private int animationFrameRefreshDelay;
     private int animationFrameRefreshDelayCounter;
 
+    public AnimatedSprite(Sprite parent,List<Node> animationFrames) {
+        this(parent,animationFrames, "default",0);
+    }
+
     public AnimatedSprite(Sprite parent,List<Node> animationFrames, String animationName, double heading) {
-        super(parent,animationFrames.get(0), heading);
+        super(animationFrames.get(0), heading);
         animationMap = new HashMap<>();
         animationMap.put(animationName, animationFrames);
         currentAnimation = animationFrames;
         currentAnimationFrameIndex = 0;
         animationFrameRefreshDelay = 1;
         animationFrameRefreshDelayCounter = 1;
+
+        move(parent.getX(),parent.getY());
+        changeOffsetValues(parent.getOffsetX(),parent.getOffsetY());
     }
 
     public AnimatedSprite(List<Node> animationFrames, String animationName, double heading) {
@@ -42,6 +49,8 @@ public abstract class AnimatedSprite extends Sprite {
     public AnimatedSprite(List<Node> animationFrames) {
         this(animationFrames, "default");
     }
+
+
 
     /* Default AnimatedSprite is a Rectangle that changes color */
     public AnimatedSprite() {
@@ -72,9 +81,15 @@ public abstract class AnimatedSprite extends Sprite {
         }
     }
 
+    public void move(double xDist,double yDist){
+        for(List<Node> allAnimationList:animationMap.values())
+            for(Node node:allAnimationList)
+                node.relocate(node.getLayoutX()+xDist+node.getBoundsInLocal().getMinX(),node.getLayoutY()+yDist+node.getBoundsInLocal().getMinY());
+    }
+
     @Override
     public Node getNode() {
-        return currentAnimation.get(currentAnimationFrameIndex%3);
+        return currentAnimation.get(currentAnimationFrameIndex%currentAnimation.size());
     }
 
     public void addAnimation(String animationName, List<Node> animationFrames) {

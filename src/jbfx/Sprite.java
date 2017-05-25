@@ -15,7 +15,7 @@ public abstract class Sprite {//to be implemented by user
     public Sprite(Sprite parent,Node inNode,double heading)
     {
         node = inNode;
-        heading = heading;
+        this.heading = heading;
         move(parent.getX(),parent.getY());
         changeOffsetValues(parent.getOffsetX(),parent.getOffsetY());
     }
