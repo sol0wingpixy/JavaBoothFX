@@ -18,14 +18,17 @@ public class Explosion extends AnimatedSprite {
         explosionFrames.add(new Polygon(0,0,0,10,10,10,10,0));
         explosionFrames.add(new Polygon(5,0,10,5,5,10,0,5));
     }
-
+    private long initTime = -1;
     public Explosion(Sprite parent)
     {
         super(parent,new ArrayList<>(Explosion.explosionFrames));
     }
     @Override
     public void runPerTick(long now) {
-
+        if(initTime<0)
+            initTime = now;
+        if(now-initTime>60)
+            removeThis();
     }
 
     @Override

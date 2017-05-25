@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 //This is the central class for the actual execution of the Game
@@ -81,14 +82,9 @@ public class Game {
 
             if(launched)
             {
-                if(sprite instanceof AnimatedSprite) {
-                    if(!animatedGroup.getChildren().remove(sprite.getNode()))
-                        throw new NoSuchSpriteException("Trying to remove sprite that is not there.");
-                }
-                else {
+                if(!(sprite instanceof AnimatedSprite))
                     if(!spriteGroup.getChildren().remove(sprite.getNode()))
                         throw new NoSuchSpriteException("Trying to remove sprite that is not there.");
-                }
             }
         }
         catch (NoSuchSpriteException e)
@@ -199,16 +195,23 @@ public class Game {
             @Override
             public void handle(long now) {
                 ObservableList<Node> toAnimate = animatedGroup.getChildren();
-                for(int i=0;i<toAnimate.size();i++) {
-                    toAnimate.set(i,animatedSprites.get(i).nextFrame());
+                toAnimate.remove(0,toAnimate.size());
+                for(int i=0;i<animatedSprites.size();i++) {
+                    toAnimate.add(animatedSprites.get(i).nextFrame());
                 }
                 for (Sprite sprite:sprites) {//go through all sprites, tick them
                     sprite.setOffset(camera.getOffsetX(), camera.getOffsetY());
                     sprite.runPerTick(now);//whatever user defines
                 }
-                for(Sprite sprite:animatedSprites) {
-                    sprite.setOffset(camera.getOffsetX(), camera.getOffsetY());
-                    sprite.runPerTick(now);//whatever user defines
+                try {
+                    for (Sprite sprite : animatedSprites) {
+                        sprite.setOffset(camera.getOffsetX(), camera.getOffsetY());
+                        sprite.runPerTick(now);//whatever user defines
+                    }
+                }
+                catch(ConcurrentModificationException e)
+                {
+                    System.out.println("Whoops! Concrrent Modification!");
                 }
                 //Could set up another AnimationTimer to check collision - should?
                 for(int i=0;i<sprites.size();i++)//every sprite
