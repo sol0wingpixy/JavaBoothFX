@@ -119,9 +119,9 @@ public abstract class Sprite {//to be implemented by user
         return offsetY;
     }
 
-    public double getX(){return node.getLayoutX()+node.getBoundsInLocal().getWidth()/2;}
+    public double getX(){return node.getLayoutX()+node.getLayoutBounds().getWidth()/2;}
 
-    public double getY(){return node.getLayoutY()+node.getBoundsInLocal().getHeight()/2;}
+    public double getY(){return node.getLayoutY()+node.getLayoutBounds().getHeight()/2;}
 
     public Node getNode() {//needed for collision, setting up drawing
         return node;

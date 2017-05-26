@@ -194,34 +194,31 @@ public class Game {
         animationTimer = new AnimationTimer() {//run at 60 fps
             @Override
             public void handle(long now) {
+                List<Sprite> spritesClone = new ArrayList<>(sprites);
+                List<Sprite> animatedSpritesClone = new ArrayList<>(animatedSprites);
                 ObservableList<Node> toAnimate = animatedGroup.getChildren();
                 toAnimate.remove(0,toAnimate.size());
                 for(int i=0;i<animatedSprites.size();i++) {
                     toAnimate.add(animatedSprites.get(i).nextFrame());
                 }
-                for (Sprite sprite:sprites) {//go through all sprites, tick them
+                for (Sprite sprite:spritesClone) {//go through all sprites, tick them
                     sprite.setOffset(camera.getOffsetX(), camera.getOffsetY());
                     sprite.runPerTick(now);//whatever user defines
                 }
-                try {
-                    for (Sprite sprite : animatedSprites) {
+                for (Sprite sprite : animatedSpritesClone) {
                         sprite.setOffset(camera.getOffsetX(), camera.getOffsetY());
                         sprite.runPerTick(now);//whatever user defines
-                    }
                 }
-                catch(ConcurrentModificationException e)
-                {
-                    System.out.println("Whoops! Concrrent Modification!");
-                }
+                List<Sprite> allSpritesClone = new ArrayList<>(allSprites);
                 //Could set up another AnimationTimer to check collision - should?
-                for(int i=0;i<sprites.size();i++)//every sprite
+                for(int i=0;i<allSpritesClone.size();i++)//every sprite
                 {
-                    for(int j = i+1;j<sprites.size();j++)//every sprite that hasn't already been checked against sprites[i] - efficency
+                    for(int j = i+1;j<allSpritesClone.size();j++)//every sprite that hasn't already been checked against sprites[i] - efficency
                     {
-                        if(sprites.get(i).getNode().getBoundsInParent().intersects(sprites.get(j).getNode().getBoundsInParent()))//check collision
+                        if(allSpritesClone.get(i).getNode().getBoundsInParent().intersects(allSpritesClone.get(j).getNode().getBoundsInParent()))//check collision
                         {
-                            sprites.get(i).collidesWith(sprites.get(j));//collide one with other
-                            sprites.get(j).collidesWith(sprites.get(i));//collide other with one
+                            allSpritesClone.get(i).collidesWith(allSpritesClone.get(j));//collide one with other
+                            allSpritesClone.get(j).collidesWith(allSpritesClone.get(i));//collide other with one
                         }
                     }
                 }

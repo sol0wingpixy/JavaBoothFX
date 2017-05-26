@@ -29,6 +29,7 @@ public abstract class AnimatedSprite extends Sprite {
 
         move(parent.getX(),parent.getY());
         changeOffsetValues(parent.getOffsetX(),parent.getOffsetY());
+        move(-currentAnimation.get(0).getLayoutBounds().getWidth()/2,-currentAnimation.get(0).getLayoutBounds().getHeight()/2);
     }
 
     public AnimatedSprite(List<Node> animationFrames, String animationName, double heading) {
@@ -105,10 +106,14 @@ public abstract class AnimatedSprite extends Sprite {
        Called 60 times per second by Game.
      */
     public Node nextFrame() {
-        currentAnimationFrameIndex %= currentAnimation.size(); //loops animation frame back to start, if applicable
         if (animationFrameRefreshDelay == animationFrameRefreshDelayCounter++) {
             animationFrameRefreshDelayCounter = 1;
-            return currentAnimation.get(currentAnimationFrameIndex++);
+            int nextFrameIndex = (currentAnimationFrameIndex+1)%currentAnimation.size();
+            //center image
+            double xMove = currentAnimation.get(currentAnimationFrameIndex).getLayoutBounds().getWidth()/2-currentAnimation.get(nextFrameIndex).getLayoutBounds().getWidth()/2;
+            double yMove = currentAnimation.get(currentAnimationFrameIndex).getLayoutBounds().getHeight()/2-currentAnimation.get(nextFrameIndex).getLayoutBounds().getHeight()/2;
+            move(xMove,yMove);
+            currentAnimationFrameIndex = nextFrameIndex;
         }
         return currentAnimation.get(currentAnimationFrameIndex);
     }

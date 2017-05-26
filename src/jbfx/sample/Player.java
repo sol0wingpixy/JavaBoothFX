@@ -53,7 +53,13 @@ public class Player extends Sprite {
         }
         else
         {
-            physics.hitFloor();
+            if(other instanceof Bullet)
+            {
+                removeThis();
+            }
+            else {
+                physics.hitFloor();
+            }
         }
     }
 }
