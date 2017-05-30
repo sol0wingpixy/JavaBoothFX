@@ -17,8 +17,15 @@ import java.util.List;
 public class Explosion extends AnimatedSprite {
     private static final List<ImageView> explosionFrames = new ArrayList<>();
     static{
-        explosionFrames.add(new ImageView("4percent.png"));
+        explosionFrames.add(new ImageView("4percent.PNG"));
         explosionFrames.add(new ImageView("IMG_0106.JPG"));
+        explosionFrames.add(new ImageView("arch.jpg"));
+        explosionFrames.add(new ImageView("blueMotorcycle.jpg"));
+        explosionFrames.add(new ImageView("koala.jpg"));
+        explosionFrames.add(new ImageView("moon-surface.jpg"));
+        explosionFrames.add(new ImageView("snowman.jpg"));
+        explosionFrames.add(new ImageView("temple.jpg"));
+        explosionFrames.add(new ImageView("wall.jpg"));
     }
     private static List<Node> getExplosionCopy()
     {
@@ -39,7 +46,7 @@ public class Explosion extends AnimatedSprite {
     public void runPerTick(long now) {
         if(initTime<0)
             initTime = now;
-        if(now-initTime>2000)
+        if(now-initTime>1000000000)
             removeThis();
     }
 
