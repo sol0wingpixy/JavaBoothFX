@@ -42,7 +42,7 @@ public class Player extends Sprite {
         }
         if(keyEvent.getCode()==KeyCode.TAB)
         {
-            getParentGame().addSprite(new Collectable(new Circle(10, Color.BLUE)));
+            addSprite(new Collectable(new Circle(10, Color.BLUE)));
         }
     }
     public void collidesWith(Sprite other) {

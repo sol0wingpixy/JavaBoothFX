@@ -71,93 +71,168 @@ public abstract class Sprite {//to be implemented by user
     //ABSTRACT METHODS
 
     /**
-     * 
-     * @param now
+     * This method is called about 60 times every second for each Sprite.
+     * Should contain any actions like Physics.tick(), or continous keyboard input, using keyPressed(KeyCode code)
+     * @param now Time in nanoseconds since start of game.
      */
     public abstract void runPerTick(long now);//executed 60 times a second by Game
 
+    /**
+     * Called whenever a key is pressed.
+     * @param event The KeyEvent of the key that is pressed. Mostly used for KeyEvent.getCode()
+     */
     public abstract void whenKeyPressed(KeyEvent event);//whenever a key is pressed
 
+    /**
+     * Called whenever a Sprite collides with another, for each Sprite
+     * @param other The Sprite collided with.
+     */
     public abstract void collidesWith(Sprite other);//checks collision every tick
 
-
+    /**
+     * Will remove this sprite from the game after current tick.
+     */
     public void removeThis()
     {
         parentGame.removeSprite(this);
     }
 
-    public void addSprite(Sprite sprite)
+    /**
+     * Adds the given Sprite to the parent game at the end of this tick.
+     * @param sprite The Sprite to be added
+     */
+    protected void addSprite(Sprite sprite)
     {
         parentGame.addSprite(sprite);
     }
 
-    public void setParentGame(Game game){//used by Game.java
+    /**
+     * Used internally to set the reference of the parent game, for things like adding and removing Sprites.
+     * @param game The parent game.
+     */
+    void setParentGame(Game game){//used by Game.java
         parentGame = game;
     }
 
-    public Game getParentGame() {
+    /**
+     *
+     * @return The reference to the parentGame.
+     */
+    Game getParentGame() {
         return parentGame;
     }
 
-    public void setOffset(double offX,double offY) {
+    void setOffset(double offX,double offY) {
         move(offX-offsetX,offY-offsetY);
         offsetX = offX;
         offsetY = offY;
     }
-    protected void changeOffsetValues(double offX,double offY) {
+    void changeOffsetValues(double offX,double offY) {
         offsetX = offX;
         offsetY = offY;
     }
+
+    /**
+     * Will center the camera on this Sprite.
+     */
     public void centerCamera() {
         parentGame.centerOn(this);
     }
 
+    /**
+     * If the provided KeyCode is pressed
+     * @param code Asking about this KeyCode
+     * @return Whether or not the given KeyCode is pressed
+     */
     public boolean keyPressed(KeyCode code){//intended for access by user's implementation
         return parentGame.getStates().isKeyPressed(code);
     }
 
+    /**
+     * Rotate the given number of degrees
+     * @param theta Rotate this many degrees
+     */
     public void rotate(double theta) {//rotate theta degrees counterclockwise
         heading += theta;
         heading %=360;
         node.setRotate(node.getRotate()+theta);
     }
+
+    /**
+     * Will set the rotation value to the given heading.
+     * @param theta Degrees from 0 - right.
+     */
     public void setHeading(double theta) {//set theta.
         heading = theta;
         heading %= 360;
         node.setRotate(theta);
     }
+
+    /**
+     *
+     * @return The heading in degrees from right.
+     */
     public double getHeading(){
         return heading;
     }
 
+    /**
+     * Move forward the privided distance, using the heading and trigonometry.
+     * @param dist How far to move.
+     */
     public void moveForward(double dist) {//used by user - will use heading and Trig to move indicated amount in Heading direction
         node.relocate(node.getLayoutX() + dist * Math.cos(Math.toRadians(heading)),node.getLayoutY() + dist * Math.sin(Math.toRadians(heading)));
     }
 
+    /**
+     * Moves the sprite dist pixels on the X-axis
+     * @param dist Distance to move. Can be negative
+     */
     public void moveX(double dist) {//used by user - moves dist pixels left(negative) or right
         move(dist,0);
     }
 
+    /**
+     * Moves the sprite dist pixels on the Y-axis
+     * @param dist Distance to move. Can be negative
+     */
     public void moveY(double dist) {//used by user - moves dist pixels up(negative) or down
         move(0,dist);
     }
 
+    /**
+     * Moves the sprite xDist pixels on the X-axis and yDist pixels on the Y-axis
+     * @param xDist Distance to move on X-axis. Can be negative
+     * @param yDist Distance to move on Y-axis. Can be negative
+     */
     public void move(double xDist,double yDist) {//used by user - moves xDist pixels L/R, yDist pixels U/D
         node.relocate(node.getLayoutX()+xDist+node.getBoundsInLocal().getMinX(),node.getLayoutY()+yDist+node.getBoundsInLocal().getMinY());
     }
 
-    public double getOffsetX() {
+    double getOffsetX() {
         return offsetX;
     }
 
-    public double getOffsetY() {
+    double getOffsetY() {
         return offsetY;
     }
 
+    /**
+     *
+     * @return Roughly the X value of the center of the Sprite
+     */
     public double getX(){return node.getLayoutX()+node.getLayoutBounds().getWidth()/2;}
 
+    /**
+     *
+     * @return Roughly the Y value of the center of the Sprite
+     */
     public double getY(){return node.getLayoutY()+node.getLayoutBounds().getHeight()/2;}
 
+    /**
+     *
+     * @return The internal Node that is drawn to screen
+     */
     public Node getNode() {//needed for collision, setting up drawing
         return node;
     }
