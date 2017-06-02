@@ -9,7 +9,7 @@ import jbfx.Physics;
 import jbfx.Sprite;
 
 /**
- * Created by miller5157r on 4/27/2017.
+ *
  */
 public class Player extends Sprite {
 

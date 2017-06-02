@@ -4,29 +4,29 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-//this is the JavaFX Application that runs - creates the window
+
+/**
+ * This is the actual JavaFX Application that is run by Game
+ */
 public class Window extends Application {
     private static Game game;//game holds all actual variables
-    public static void setGame(Game gameIn)
+    static void setGame(Game gameIn)
     {
         game = gameIn;
     }
 
-    private Stage stage;
-    public void start(Stage inStage) {
-        stage = inStage;
-        game.setWindow(this);
-        System.out.println("Starting Application");//debug
+    /**
+     * Only run by Game - Creates and displays the actual window
+     * @param stage Default!
+     */
+    @Override
+    public void start(Stage stage) {
         Group root = new Group();
         Group animatedGroup = new Group();
         Scene scene = new Scene(root);
         //get all sprites drawn to screen, timers, etc.
         game.makeScene(root,animatedGroup,stage);
         stage.setScene(scene);
-        stage.show();
-    }
-    public void update()
-    {
         stage.show();
     }
 }

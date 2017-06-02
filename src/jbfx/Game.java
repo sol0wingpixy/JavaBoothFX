@@ -31,7 +31,6 @@ public class Game {
     private EventHandler releasedHandler;
     private KeyStates states;
     private ViewManager camera;
-    private Window window;
     private boolean launched = false;
 
     /**
@@ -57,6 +56,11 @@ public class Game {
         this(500,500);
     }
 
+    /**
+     * Will add the sent Sprite to the game. Will be split by Animated and Static sprites.
+     * Also adds the Sprite's node to the Window.
+     * @param sprite Sprite to be added.
+     */
     public void addSprite(Sprite sprite) {
         if(sprite instanceof AnimatedSprite) {
             animatedSprites.add((AnimatedSprite)sprite);
@@ -77,6 +81,11 @@ public class Game {
             }
         }
     }
+
+    /**
+     * Will remove the stated sprite from the game - if fails, will throw NoSuchSpriteException
+     * @param sprite Reference to Sprite to be removed.
+     */
     public void removeSprite(Sprite sprite)
     {
         try {
@@ -103,75 +112,126 @@ public class Game {
         }
     }
 
+    /**
+     * Will add sent Sprites to the game using addSprite method
+     * @param sprites The Sprites to be added
+     */
     public void addSprites(Sprite... sprites) {
         for(Sprite sprite : sprites){
             addSprite(sprite);
         }
     }
 
+    /**
+     * Will add sent Sprites to the game using addSprite method
+     * @param sprites THe Sprites to be added
+     */
     public void addSprites(Collection<Sprite> sprites){
         for(Sprite sprite : sprites){
             addSprite(sprite);
         }
     }
 
-    void setWindow(Window window)
-    {
-        this.window = window;
-    }
-
+    /**
+     * Returns the width of the game
+     * @return Width of the game
+     */
     public double getWidth() {
         return width;
     }
 
+    /**
+     * Sets the width of the game to sent value
+     * @param width New width of game
+     */
     public void setWidth(double width) {
         this.width = width;
     }
 
+    /**
+     * Returns the height of the game
+     * @return Height of the game
+     */
     public double getHeight() {
         return height;
     }
 
+    /**
+     * Sets the height of the game to sent value
+     * @param height New height of the game
+     */
     public void setHeight(double height) {
         this.height = height;
     }
 
+    /**
+     * Returns the KeyStates used to keep track of key depressions
+     * @return The KeyStates object
+     */
     public KeyStates getStates(){
         return states;
     }
 
-    public List<Sprite> getSprites() {
-        return sprites;
-    }
-
+    /**
+     * Returns all the sprites currently in the game.
+     * @return The allSprites list
+     */
     public List<Sprite> getAllSprites() {return allSprites;}
 
+    /**
+     * Moves the 'camera' by the sent values - actually changes the offset of all Sprites
+     * @param x Distance scrolled in X-axis
+     * @param y Distance scrolled in Y-axis
+     */
     public void scroll(double x,double y) {
         camera.move(x,y);
     }
 
+    /**
+     * Moves the 'camera' by the sent value - actually changes the offset of all Sprites
+     * @param xOffset Distance scrolled in X-axis
+     */
     public void scrollX(double xOffset){
         camera.moveX(xOffset);
     }
 
+    /**
+     * Moves the 'camera' by the sent value - actually changes the offset of all Sprites
+     * @param yOffset Distance scrolled in Y-axis
+     */
     public void scrollY(double yOffset){
         camera.moveY(yOffset);
     }
 
+    /**
+     * Moves the camera to the given values - top-left corner.
+     * @param xCo X-coordinate of the left edge of the view
+     * @param yCo Y-coordinate of the top edge of the view
+     */
     public void scrollTo(double xCo,double yCo) {
         camera.offsetTo(xCo,yCo);
     }
-
+    /**
+     * Moves the camera to the given values - centered.
+     * @param xCo X-coordinate of the center of the view
+     * @param yCo Y-coordinate of the center of the view
+     */
     public void centerOn(double xCo,double yCo){
         camera.offsetTo(xCo+width/2,yCo+height/2);
     }
 
+    /**
+     * Moves the camera to center on the given Sprite - a bit jerky
+     * @param object The object to center upon.
+     */
     public void centerOn(Sprite object){
         Node centerTo = object.getNode();
         centerOn(-(centerTo.getLayoutX()-object.getOffsetX()),-(centerTo.getLayoutY()-object.getOffsetY()));
     }
 
-    //startGame is last method call from user's Main - starts game running.
+    /**
+     * Should be the final call from the user's code - will create all begin the game, draw sprites.
+     */
     public void startGame() {
         Window.setGame(this);//give the window a reference to this
         Application.launch(Window.class);//then start the application

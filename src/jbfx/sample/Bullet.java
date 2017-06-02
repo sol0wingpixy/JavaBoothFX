@@ -10,6 +10,7 @@ import jbfx.Sprite;
  */
 public class Bullet extends Sprite {
     private double xVel,yVel;
+    private long originTime = -1;
     private Sprite parent;
     public Bullet(double xVel,double yVel,Sprite parent)
     {
@@ -21,6 +22,13 @@ public class Bullet extends Sprite {
     @Override
     public void runPerTick(long now) {
         move(xVel,yVel);
+        if(originTime<0)
+            originTime = now;
+        if(now-originTime>9999999999L)
+        {
+            removeThis();
+            addSprite(new Explosion(this));
+        }
     }
 
     @Override

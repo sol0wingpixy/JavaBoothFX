@@ -3,7 +3,7 @@ package jbfx;
 import java.util.List;
 
 /**
- *
+ * A Physics helper to be implemented in user-made Sprites
  */
 public class Physics {
     private Sprite object;
