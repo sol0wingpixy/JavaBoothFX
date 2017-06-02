@@ -6,6 +6,9 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.*;
 
+/**
+ * A modified version of Sprite that animates with multiple nodes.
+ */
 public abstract class AnimatedSprite extends Sprite {
     private Map<String, List<Node>> animationMap;
     private List<Node> currentAnimation;

@@ -5,10 +5,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
 /**
-*This is the basic Sprite class. Everything that appears on screen will directly extend either Sprite or AnimatedSprites.\n
+*This is the basic Sprite class. Everything that appears on screen will directly extend either Sprite or AnimatedSprites.
 * Each frame, the {@code runPerTick(long now)} method will be called.
 * Whenever a key is pressed, the {@code whenKeyPressed(KeyEvent event)} method is called, with {@code event} representing the proper key.
-* Whenever it collides with another Sprite, {@code collidesWith(Sprite other)} will be called for each sprite.\n
+* Whenever it collides with another Sprite, {@code collidesWith(Sprite other)} will be called for each sprite.
  * All these methods must be overriden by the user's own Sprite.
  */
 public abstract class Sprite {//to be implemented by user
@@ -169,7 +169,7 @@ public abstract class Sprite {//to be implemented by user
     }
 
     /**
-     *
+     * Returns the heading
      * @return The heading in degrees from right.
      */
     public double getHeading(){
@@ -218,19 +218,19 @@ public abstract class Sprite {//to be implemented by user
     }
 
     /**
-     *
+     * Returns the X value of the center of the Sprite
      * @return Roughly the X value of the center of the Sprite
      */
     public double getX(){return node.getLayoutX()+node.getLayoutBounds().getWidth()/2;}
 
     /**
-     *
+     * Returns the Y value of the center of the Sprite
      * @return Roughly the Y value of the center of the Sprite
      */
     public double getY(){return node.getLayoutY()+node.getLayoutBounds().getHeight()/2;}
 
     /**
-     *
+     * Returns the internal Node
      * @return The internal Node that is drawn to screen
      */
     public Node getNode() {//needed for collision, setting up drawing

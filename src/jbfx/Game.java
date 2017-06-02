@@ -15,7 +15,9 @@ import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 
-//This is the central class for the actual execution of the Game
+/**
+ * This is the central converter from the user's code to JavaFX language.
+ */
 public class Game {
     private double width;
     private double height;
@@ -32,6 +34,11 @@ public class Game {
     private Window window;
     private boolean launched = false;
 
+    /**
+     * Creates a new instance of a Game object -   initializes the Sprite lists, KeyStates, and camera.
+     * @param width Width of Game frame
+     * @param height Height of Game frame
+     */
     public Game(double width,double height)
     {
         sprites = new ArrayList<>();
@@ -43,6 +50,9 @@ public class Game {
         camera = new ViewManager(states,0,0);
     }
 
+    /**
+     * Default game - width and height 500
+     */
     public Game() {
         this(500,500);
     }
@@ -105,7 +115,7 @@ public class Game {
         }
     }
 
-    public void setWindow(Window window)
+    void setWindow(Window window)
     {
         this.window = window;
     }
@@ -169,7 +179,7 @@ public class Game {
     }
 
     //makeScene starts the thread processes, assigns sprites to be drawn
-    public void makeScene(Group root,Group animatedGroup, Stage stage) {
+    void makeScene(Group root,Group animatedGroup, Stage stage) {
         //add all Sprite nodes to root to draw
         for (Sprite sprite : sprites) {
             root.getChildren().add(sprite.getNode());
@@ -190,7 +200,7 @@ public class Game {
     }
 
     //starts the animation timer that calls the Sprite runPerTick, checks collision
-    public void startAnimation() {
+    private void startAnimation() {
         animationTimer = new AnimationTimer() {//run at 60 fps
             @Override
             public void handle(long now) {
@@ -245,7 +255,7 @@ public class Game {
         }.start();
     }
 
-    public void startListening(Stage stage) {//will handle keys being pressed
+    private void startListening(Stage stage) {//will handle keys being pressed
         pressedHandler = new EventHandler<KeyEvent>() {//whenever a key is pressed down
             public void handle(KeyEvent keyEvent) {
                 for (int i=0;i<sprites.size();i++) {

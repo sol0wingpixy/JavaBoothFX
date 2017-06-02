@@ -3,7 +3,7 @@ package jbfx;
 import javafx.scene.input.KeyCode;
 
 /**
- * Created by miller5157r on 5/16/2017.
+ * Keeps track of offset values, simulates moving camera
  */
 public class ViewManager {
     private double offsetX;

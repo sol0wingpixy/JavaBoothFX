@@ -1,7 +1,7 @@
 package jbfx;
 
 /**
- * Created by miller5157r on 5/24/2017.
+ * Thrown if Game tries to remove a Sprite that doesn't exist. Shouldn't be thrown anymore.
  */
 public class NoSuchSpriteException extends Exception {
     public NoSuchSpriteException(){}

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by miller5157r on 5/3/2017.
+ * Keeps track of which keys are pressed
  */
 public class KeyStates {//remembers which keys have been pressed
     private Map<KeyCode,Boolean> keysPressed = new HashMap<>();//each KeyCode is assosiated with true or false - pressed or not
