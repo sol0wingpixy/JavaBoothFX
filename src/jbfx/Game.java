@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.ConcurrentModificationException;
 import java.util.List;
 
 /**
@@ -21,16 +20,13 @@ import java.util.List;
 public class Game {
     private double width;
     private double height;
-    private List<Sprite> sprites;
-    private List<AnimatedSprite> animatedSprites;
-    private List<Sprite> allSprites;
-    private Group spriteGroup;
-    private Group animatedGroup;
-    private AnimationTimer animationTimer;
-    private EventHandler pressedHandler;
-    private EventHandler releasedHandler;
-    private KeyStates states;
-    private ViewManager camera;
+    private List<Sprite> sprites; //List of non-animated Sprites
+    private List<AnimatedSprite> animatedSprites; //List of animated Sprites
+    private List<Sprite> allSprites; //List of all Sprites - animated or not
+    private Group spriteGroup; //Group of non-animated Sprites - used to dynamically add and remove
+    private Group animatedGroup; //Group of animated Sprites - used to change images, dynamically add and remove
+    private KeyStates states; //Map of all KeyCodes and whether or not they are pressed - updated by Game
+    private ViewManager camera; //Manages the offset values to simulate moving camera
     private boolean launched = false;
 
     /**
@@ -40,13 +36,14 @@ public class Game {
      */
     public Game(double width,double height)
     {
+        //instantiation
         sprites = new ArrayList<>();
         animatedSprites = new ArrayList<>();
         allSprites = new ArrayList<>();
         this.width = width;
         this.height = height;
         states = new KeyStates();
-        camera = new ViewManager(states,0,0);
+        camera = new ViewManager(0,0);
     }
 
     /**
@@ -62,24 +59,24 @@ public class Game {
      * @param sprite Sprite to be added.
      */
     public void addSprite(Sprite sprite) {
+        //if an animatedSprite, add to that list, else to regular list
         if(sprite instanceof AnimatedSprite) {
             animatedSprites.add((AnimatedSprite)sprite);
         }
         else {
             sprites.add(sprite);
         }
-        allSprites.add(sprite);
+        allSprites.add(sprite);//regardless, add to allsprites
         sprite.setParentGame(this);
         if(launched)
-        {
-            //window.update();
+        {//if the game is already launched, we need o manually add it to the Groups to appear.
             if(sprite instanceof AnimatedSprite) {
                 animatedGroup.getChildren().add(sprite.getNode());
             }
             else {
                 spriteGroup.getChildren().add(sprite.getNode());
             }
-        }
+        }//otherwise, it will be defaulted into the groups
     }
 
     /**
@@ -90,7 +87,7 @@ public class Game {
     {
         try {
             if (sprite instanceof AnimatedSprite) {
-                if (!animatedSprites.remove(sprite))
+                if (!animatedSprites.remove(sprite))//List.remove() returns true if successful, false if fails - if fails, throw exception
                     throw new NoSuchSpriteException("Trying to remove sprite that is not there.");
             } else {
                 if (!sprites.remove(sprite))
@@ -100,7 +97,7 @@ public class Game {
                 throw new NoSuchSpriteException("Trying to remove sprite that is not there.");
 
             if(launched)
-            {
+            {//if launched, need to remove node reference for non-animated Sprite - animated Sprites are already checked every tick
                 if(!(sprite instanceof AnimatedSprite))
                     if(!spriteGroup.getChildren().remove(sprite.getNode()))
                         throw new NoSuchSpriteException("Trying to remove sprite that is not there.");
@@ -108,7 +105,7 @@ public class Game {
         }
         catch (NoSuchSpriteException e)
         {
-            e.printStackTrace();
+            e.printStackTrace();//if trying to remove Sprite not present
         }
     }
 
@@ -118,7 +115,7 @@ public class Game {
      */
     public void addSprites(Sprite... sprites) {
         for(Sprite sprite : sprites){
-            addSprite(sprite);
+            addSprite(sprite);//simply traverse through list, call addSprite()
         }
     }
 
@@ -128,7 +125,7 @@ public class Game {
      */
     public void addSprites(Collection<Sprite> sprites){
         for(Sprite sprite : sprites){
-            addSprite(sprite);
+            addSprite(sprite);//simply traverse through list, call addSprite()
         }
     }
 
@@ -225,7 +222,7 @@ public class Game {
      * @param object The object to center upon.
      */
     public void centerOn(Sprite object){
-        Node centerTo = object.getNode();
+        Node centerTo = object.getNode();//I honestly don't know why this works. It just does.
         centerOn(-(centerTo.getLayoutX()-object.getOffsetX()),-(centerTo.getLayoutY()-object.getOffsetY()));
     }
 
@@ -234,7 +231,7 @@ public class Game {
      */
     public void startGame() {
         Window.setGame(this);//give the window a reference to this
-        Application.launch(Window.class);//then start the application
+        Application.launch(Window.class);//then start the application - will call makeScene
         launched = true;
     }
 
@@ -242,15 +239,15 @@ public class Game {
     void makeScene(Group root,Group animatedGroup, Stage stage) {
         //add all Sprite nodes to root to draw
         for (Sprite sprite : sprites) {
-            root.getChildren().add(sprite.getNode());
+            root.getChildren().add(sprite.getNode());//add all regular Sprite nodes to that group
         }
         for(Sprite sprite : animatedSprites) {
-            animatedGroup.getChildren().add(sprite.getNode());
+            animatedGroup.getChildren().add(sprite.getNode());//add all animated Sprite nodes to that group
         }
-        this.animatedGroup = animatedGroup;
-        root.getChildren().add(animatedGroup);
-        spriteGroup = root;
-        //obvious
+        this.animatedGroup = animatedGroup; //set animatedGroup reference
+        root.getChildren().add(animatedGroup); //put animategGroup in default Sprite group - to draw every frame
+        spriteGroup = root; //set spriteGroup reference
+
         stage.setWidth(getWidth());
         stage.setHeight(getHeight());
 
@@ -261,16 +258,19 @@ public class Game {
 
     //starts the animation timer that calls the Sprite runPerTick, checks collision
     private void startAnimation() {
-        animationTimer = new AnimationTimer() {//run at 60 fps
+        new AnimationTimer() {//run at 60 fps
             @Override
             public void handle(long now) {
                 List<Sprite> spritesClone = new ArrayList<>(sprites);
                 List<Sprite> animatedSpritesClone = new ArrayList<>(animatedSprites);
-                ObservableList<Node> toAnimate = animatedGroup.getChildren();
-                toAnimate.remove(0,toAnimate.size());
+                //clones each list to avoid dynamic deletion errors - any deletions won't take effect in current tick
+
+                ObservableList<Node> toAnimate = animatedGroup.getChildren(); //get the list of animatedSprit nodes
+                toAnimate.remove(0,toAnimate.size());//remove all nodes
                 for(int i=0;i<animatedSprites.size();i++) {
-                    toAnimate.add(animatedSprites.get(i).nextFrame());
+                    toAnimate.add(animatedSprites.get(i).nextFrame());//add each animatedSprites' next frame
                 }
+
                 for (Sprite sprite:spritesClone) {//go through all sprites, tick them
                     sprite.setOffset(camera.getOffsetX(), camera.getOffsetY());
                     sprite.runPerTick(now);//whatever user defines
@@ -280,7 +280,7 @@ public class Game {
                         sprite.runPerTick(now);//whatever user defines
                 }
                 List<Sprite> allSpritesClone = new ArrayList<>(allSprites);
-                //Could set up another AnimationTimer to check collision - should?
+                //clone list to avoid dynamic deletion errors
                 for(int i=0;i<allSpritesClone.size();i++)//every sprite
                 {
                     for(int j = i+1;j<allSpritesClone.size();j++)//every sprite that hasn't already been checked against sprites[i] - efficency
@@ -293,44 +293,23 @@ public class Game {
                     }
                 }
             }
-        };
-        animationTimer.start();
-        Game game = this;
-        new AnimationTimer(){
-            public void handle(long now)
-            {
-                if(states.isKeyPressed(KeyCode.I)) {
-                    camera.moveY(3);
-                }
-                if(states.isKeyPressed(KeyCode.J)) {
-                    camera.moveX(3);
-                }
-                if(states.isKeyPressed(KeyCode.K)) {
-                    camera.moveY(-3);
-                }
-                if(states.isKeyPressed(KeyCode.L)) {
-                    camera.moveX(-3);
-                }
-            }
         }.start();
     }
 
     private void startListening(Stage stage) {//will handle keys being pressed
-        pressedHandler = new EventHandler<KeyEvent>() {//whenever a key is pressed down
+        stage.addEventHandler(KeyEvent.KEY_PRESSED,new EventHandler<KeyEvent>() {//whenever a key is pressed down
             public void handle(KeyEvent keyEvent) {
                 for (int i=0;i<sprites.size();i++) {
                     sprites.get(i).whenKeyPressed(keyEvent);//have each sprite react
                 }
                 states.keyPressed(keyEvent.getCode());//have KeyStates remember that the key is pressed
             }
-        };
-        stage.addEventHandler(KeyEvent.KEY_PRESSED,pressedHandler);
+        });
 
-        releasedHandler = new EventHandler<KeyEvent>() {//whenever a key is released
+        stage.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {//whenever a key is released
             public void handle(KeyEvent keyEvent) {
                 states.keyReleased(keyEvent.getCode());//have KeyStates remember that key is released
             }
-        };
-        stage.addEventHandler(KeyEvent.KEY_RELEASED,releasedHandler);
+        });
     }
 }

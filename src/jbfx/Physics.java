@@ -12,10 +12,18 @@ public class Physics {
     private boolean onFloor = false;
     private double gravity = .1;
 
+    /**
+     * Simply remembers which Sprite is the object of the physics.
+     * @param object The parent.
+     */
     public Physics(Sprite object)
     {
         this.object = object;
     }
+
+    /**
+     * Sould be called every frame, checks gravity, velocity, and if it is on another sprite (onFloor).
+     */
     public void tick()
     {
         if(onFloor) {
@@ -45,6 +53,10 @@ public class Physics {
             onFloor = true;
         object.moveY(-1);
     }
+
+    /**
+     * Explicitly informing this that it has hit a floor - jumps to top of floor.
+     */
     public void hitFloor()
     {
         yVel = 0;
@@ -59,9 +71,23 @@ public class Physics {
             object.moveY(1);
         }
     }
+
+    /**
+     * Sets not on floor, increases yVel by manitude.
+     * @param magnitude Increases yVel by this
+     */
     public void jump(double magnitude)
     {
         onFloor = false;
         yVel = -magnitude;
+    }
+
+    /**
+     * Establishes gravitiational acceleration
+     * @param g Gravity coefficient.
+     */
+    public void setGravity(double g)
+    {
+        gravity = g;
     }
 }
