@@ -35,7 +35,7 @@ public class Main {
         floors.add(new Platform(150,-150,50,5));
         //Sprites must be put into the local game to exist - what the user sees.
 
-
+        game.addSprite(new Util());
         game.addSprite(bob);
         game.addSprites(floors);
         game.addSprite(new Bug(new Polygon(30,30,0,0,0,60),0));

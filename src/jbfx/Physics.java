@@ -26,49 +26,50 @@ public class Physics {
      */
     public void tick()
     {
+        //if in the air, modify gravity
         if(onFloor) {
             yVel = 0;
         }
         else{
             yVel += gravity;
         }
-        object.move(xVel,yVel);
-        object.moveY(1);
-        boolean falling = true;
+        object.move(xVel,yVel);//move the sprite per tick
+        //the following checks for onFloor.
+        object.moveY(1);//offset the Sprite down one - will collide with floor
+        boolean falling = true;//default value
         for(Sprite sprite:object.getParentGame().getAllSprites())
-        {
+        {//go through all sprites
             if(!(sprite.equals(object))&&sprite.getNode().getBoundsInParent().intersects(object.getNode().getBoundsInParent()))//true if collides with something
-            {
-                falling = false;
+            {//if the sprite does collide with something
+                falling = false;//it won't be falling
                 while(sprite.getNode().getBoundsInParent().intersects(object.getNode().getBoundsInParent()))//check collision
                 {
-                    object.moveY(-1);
+                    object.moveY(-1);//this will move the sprite up on top of whatever floor - keeps from getting stuck
                 }
-                object.moveY(1);
+                object.moveY(1);//would have ended up a little above floor - moves back down
             }
         }
-        if(falling)
+        if(falling)//translates old boolean to onFloor state
             onFloor = false;
         else
             onFloor = true;
-        object.moveY(-1);
+        object.moveY(-1);//un-do moveY(1) at beginning
     }
-
     /**
      * Explicitly informing this that it has hit a floor - jumps to top of floor.
      */
     public void hitFloor()
     {
         yVel = 0;
-        onFloor = true;
+        onFloor = true;//set the sensical floor values
         List<Sprite> allSprites = object.getParentGame().getAllSprites();
         for(Sprite sprite:allSprites)
-        {
+        {//go through all sprites
             while(!(sprite.equals(object))&&sprite.getNode().getBoundsInParent().intersects(object.getNode().getBoundsInParent()))//check collision
             {
-                object.moveY(-1);
+                object.moveY(-1);//will move to top of whatever floor it's on.
             }
-            object.moveY(1);
+            object.moveY(1);//make look nice - sitting on floor
         }
     }
 

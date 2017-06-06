@@ -29,8 +29,8 @@ public abstract class Sprite {//to be implemented by user
     {
         node = inNode;
         this.heading = heading;
-        move(parent.getX(),parent.getY());
-        changeOffsetValues(parent.getOffsetX(),parent.getOffsetY());
+        move(parent.getX(),parent.getY());//move this Sprite to the coordinates of the parent
+        changeOffsetValues(parent.getOffsetX(),parent.getOffsetY());//ensure drawn at same location - fix offsets
     }
 
     /**
@@ -123,13 +123,51 @@ public abstract class Sprite {//to be implemented by user
     }
 
     void setOffset(double offX,double offY) {
-        move(offX-offsetX,offY-offsetY);
+        move(offX-offsetX,offY-offsetY);//move location to proper offset
         offsetX = offX;
         offsetY = offY;
     }
     void changeOffsetValues(double offX,double offY) {
         offsetX = offX;
         offsetY = offY;
+    }
+
+    /**
+     * Moves the camera the given distances
+     * @param x X distance to move
+     * @param y Y distance to move
+     */
+    public void moveCamera(double x,double y)
+    {
+        parentGame.scroll(x,y);
+    }
+
+    /**
+     * Moves the camera the given distance in the X-axis
+     * @param x Distance to move
+     */
+    public void moveCameraX(double x)
+    {
+        parentGame.scrollX(x);
+    }
+
+    /**
+     * Moves the camera the given distance in the Y-axis
+     * @param y Distance to move
+     */
+    public void moveCameraY(double y)
+    {
+        parentGame.scrollY(y);
+    }
+
+    /**
+     * Moves the camera to the given coordinates
+     * @param x X coordinate
+     * @param y Y coordinate
+     */
+    public void moveCameraTo(double x,double y)
+    {
+        parentGame.scrollTo(x,y);
     }
 
     /**
@@ -153,9 +191,9 @@ public abstract class Sprite {//to be implemented by user
      * @param theta Rotate this many degrees
      */
     public void rotate(double theta) {//rotate theta degrees counterclockwise
-        heading += theta;
-        heading %=360;
-        node.setRotate(node.getRotate()+theta);
+        heading += theta;//modify the angle
+        heading %= 360;//make the angle simpler
+        node.setRotate(node.getRotate()+theta);//change the node's rotation
     }
 
     /**
@@ -163,9 +201,9 @@ public abstract class Sprite {//to be implemented by user
      * @param theta Degrees from 0 - right.
      */
     public void setHeading(double theta) {//set theta.
-        heading = theta;
-        heading %= 360;
-        node.setRotate(theta);
+        heading = theta;//modify the angle
+        heading %= 360;//make the angle simpler
+        node.setRotate(theta);//set the rotation of node
     }
 
     /**
